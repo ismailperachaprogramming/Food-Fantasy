@@ -3,6 +3,15 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QtSql>
+#include <QtDebug>
+#include <QFileInfo>
+
+#include "restaurant.h"
+
 
 /*!
  * \brief Database class
@@ -41,6 +50,9 @@ public:
      * \return Returns a vector of Restaurant objects.
      */
     std::vector<Restaurant>& getRestaurants();
+
+private:
+    QSqlDatabase db;
 
 };
 

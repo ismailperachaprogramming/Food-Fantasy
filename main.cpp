@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QtDebug>
 
 int main(int argc, char *argv[])
 {
@@ -8,4 +9,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     return a.exec();
+
+    //Testing db class:
+    qInfo() << "test";
+    Database db;
+    db.getRestaurants();
 }
