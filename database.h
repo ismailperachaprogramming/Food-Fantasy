@@ -9,6 +9,7 @@
 #include <QtSql>
 #include <QtDebug>
 #include <QFileInfo>
+#include <QStandardPaths>
 
 #include "restaurant.h"
 

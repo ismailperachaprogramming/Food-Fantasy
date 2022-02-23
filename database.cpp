@@ -1,11 +1,11 @@
-#include "Database.h"
+#include "database.h"
 
 Database::Database()
 {
     //Connect to "foodfantasy.db"
 
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("foodfantasy.db");
+    db.setDatabaseName("/Users/christopherschrader/FoodFantasy/db/FOODFANTASY.db");
 
     if (db.open()){
         qInfo() << "Database connection established!";
@@ -42,15 +42,23 @@ std::vector<Restaurant>& Database::getRestaurants(){
     std::vector<Restaurant> restaurants; //populate this in the function accordingly
 
     //query all restaurants in restaurants table
-    QSqlQuery query(this->db);
-    query.prepare("SELECT * from restaurants");
-    qInfo() << query.isValid();
+    QSqlQuery query("select * from restaurants");
+    QSqlRecord rec = query.record();
+    qInfo() << "tables: " << this->db.tables();
+    qDebug() << "Number of columns: " << rec.count();
 
     while (query.next()){
         qInfo() << "once";
         int id = query.value(0).toInt();
+        QString name = query.value(1).toString();
+        QString distances = query.value(2).toString();
+        double saddlebackDistance = query.value(3).toDouble();
         QString menu = query.value(4).toString();
 
+        qInfo() << id;
+        qInfo() << name;
+        qInfo() << distances;
+        qInfo() << saddlebackDistance;
         qInfo() << menu;
     }
     return restaurants;
