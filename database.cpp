@@ -5,6 +5,7 @@ Database::Database()
     //Connect to "foodfantasy.db"
 
     db = QSqlDatabase::addDatabase("QSQLITE");
+    QDir dir = QCoreApplication::applicationDirPath();
     db.setDatabaseName("/Users/christopherschrader/FoodFantasy/db/FOODFANTASY.db");
 
     if (db.open()){
@@ -36,32 +37,64 @@ bool Database::modifyMenu(Restaurant restaurant, std::vector<MenuItem> menu){
     }
 }
 
-std::vector<Restaurant>& Database::getRestaurants(){
-    //returns a vector by ref
-    qInfo() << "Running.";
-    std::vector<Restaurant> restaurants; //populate this in the function accordingly
+bool Database::getRestaurants(std::vector<Restaurant>& restaurants){
+    //modified passed in restaurants vector
 
     //query all restaurants in restaurants table
     QSqlQuery query("select * from restaurants");
     QSqlRecord rec = query.record();
-    qInfo() << "tables: " << this->db.tables();
-    qDebug() << "Number of columns: " << rec.count();
-
     while (query.next()){
-        qInfo() << "once";
+
+        std::vector<double> distancesVector;
+        std::vector<MenuItem> menuVector;
+
         int id = query.value(0).toInt();
         QString name = query.value(1).toString();
         QString distances = query.value(2).toString();
         double saddlebackDistance = query.value(3).toDouble();
         QString menu = query.value(4).toString();
 
-        qInfo() << id;
-        qInfo() << name;
-        qInfo() << distances;
-        qInfo() << saddlebackDistance;
-        qInfo() << menu;
+        QJsonDocument json = QJsonDocument::fromJson(distances.toUtf8());
+        QJsonArray jsonArray = json.array();
+
+        for (int i = 0; i <= jsonArray.size(); i++){
+            distancesVector.push_back(jsonArray.at(i).toDouble());
+        }
+
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(menu.toUtf8());
+                QJsonArray jsonarray = jsonDoc.array();
+
+                for (int i = 0; i < jsonarray.size(); i++)
+                {
+                    QJsonObject jsonObject = jsonarray.at(i).toObject();
+
+                    if(jsonObject.isEmpty())
+                    {
+                        qInfo() << "Json is empty";
+
+                    }
+                    else
+                    {
+                        //qInfo() << "obj size: " + QString::number(jsonObject.size());
+
+                        //qInfo() << jsonObject.value("name").toString();
+                        //qInfo() << jsonObject.value("price").toDouble();
+
+                        MenuItem item;
+                        item.name = jsonObject.value("name").toString();
+                        item.price = jsonObject.value("price").toDouble();
+                        //qInfo() << "Item name: " << item.name << " Item price: " << item.price;
+                        menuVector.push_back(item);
+
+                    }
+                }
+
+        //make our new restaurant
+        Restaurant newRestaurant(id, name, menuVector, distancesVector, saddlebackDistance);
+        restaurants.push_back(newRestaurant);
     }
-    return restaurants;
+    qInfo() << "yo";
+    return true;
 }
 
 

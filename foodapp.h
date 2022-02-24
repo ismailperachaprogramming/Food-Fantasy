@@ -13,6 +13,10 @@ class FoodApp
 {
 public:
     FoodApp();
+    //test method - delete later
+    void printRestaurants() const;
+
+    void getRestaurants() const;
 
 private:
     Database db;
