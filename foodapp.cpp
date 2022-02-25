@@ -22,7 +22,7 @@ void FoodApp::printRestaurants() const {
             std::cout << std::endl << distances[i];
         }
         std::vector<MenuItem> menu = restaurants[i].getMenu();
-        for (int i = 0; i < menu.size(); i++){
+        for (int i = 0; i < menu.size() - 1; i++){
             std::cout << std::endl << menu[i].name.toStdString() << ": " << menu[i].price;
         }
     }
