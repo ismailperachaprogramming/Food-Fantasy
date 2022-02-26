@@ -10,6 +10,7 @@
 #include <QtDebug>
 #include <QFileInfo>
 #include <QStandardPaths>
+#include <QDir>
 
 #include "restaurant.h"
 
@@ -50,7 +51,7 @@ public:
      * \brief getRestaurants
      * \return Returns a vector of Restaurant objects.
      */
-    std::vector<Restaurant>& getRestaurants();
+    bool getRestaurants(std::vector<Restaurant>& restaurants);
 
 private:
     QSqlDatabase db;

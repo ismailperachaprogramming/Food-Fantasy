@@ -13,7 +13,16 @@ class FoodApp
 {
 public:
     FoodApp();
+    //test method - delete later
+    void printRestaurants() const;
 
+    void getRestaurants() const;
+
+    void startingAtSaddleback() const;
+
+    void planningTrip() const;
+
+    void entireTrip(int idR, bool fromSaddleback) const;
 private:
     Database db;
     std::vector<Restaurant> restaurants;

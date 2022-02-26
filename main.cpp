@@ -10,8 +10,4 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 
-    //Testing db class:
-    qInfo() << "test";
-    Database db;
-    db.getRestaurants();
 }
