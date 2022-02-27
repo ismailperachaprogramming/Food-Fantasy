@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "foodapp.h"
+#include "restaurantwidget.h"
+#include <iostream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,10 +16,15 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
+    void addRestaurant(Restaurant restaurant);
+    void addMenuItem(Restaurant restaurant, MenuItem item);
+
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
     FoodApp app;
+
 };
 #endif // MAINWINDOW_H

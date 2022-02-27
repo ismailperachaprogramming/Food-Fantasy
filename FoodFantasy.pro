@@ -13,13 +13,17 @@ SOURCES += \
     foodapp.cpp \
     main.cpp \
     mainwindow.cpp \
-    restaurant.cpp
+    restaurant.cpp \
+    restaurantwidget.cpp \
+    trip.cpp
 
 HEADERS += \
     Database.h \
     foodapp.h \
     mainwindow.h \
-    restaurant.h
+    restaurant.h \
+    restaurantwidget.h \
+    trip.h
 
 FORMS += \
     mainwindow.ui

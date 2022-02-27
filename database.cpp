@@ -6,7 +6,7 @@ Database::Database()
 
     db = QSqlDatabase::addDatabase("QSQLITE");
     QDir dir = QCoreApplication::applicationDirPath();
-    db.setDatabaseName("D:/Adit/school/CC/Spring 2022/CS1D/CS1D Spring 2022 Fast Food Project/Repository/SQL-Work Branch/db/FOODFANTASY.db");
+    db.setDatabaseName("/Users/christopherschrader/FoodFantasy/db/FOODFANTASY.db");
 
     if (db.open()){
         qInfo() << "Database connection established!";
@@ -48,6 +48,7 @@ bool Database::getRestaurants(std::vector<Restaurant>& restaurants){
         std::vector<double> distancesVector;
         std::vector<MenuItem> menuVector;
 
+        //Putting column data into variables
         int id = query.value(0).toInt();
         QString name = query.value(1).toString();
         QString distances = query.value(2).toString();
@@ -67,23 +68,15 @@ bool Database::getRestaurants(std::vector<Restaurant>& restaurants){
                 for (int i = 0; i < jsonarray.size(); i++)
                 {
                     QJsonObject jsonObject = jsonarray.at(i).toObject();
-
                     if(jsonObject.isEmpty())
                     {
                         qInfo() << "Json is empty";
-
                     }
                     else
                     {
-                        //qInfo() << "obj size: " + QString::number(jsonObject.size());
-
-                        //qInfo() << jsonObject.value("name").toString();
-                        //qInfo() << jsonObject.value("price").toDouble();
-
                         MenuItem item;
                         item.name = jsonObject.value("name").toString();
                         item.price = jsonObject.value("price").toDouble();
-                        //qInfo() << "Item name: " << item.name << " Item price: " << item.price;
                         menuVector.push_back(item);
 
                     }
