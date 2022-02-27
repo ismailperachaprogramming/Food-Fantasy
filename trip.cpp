@@ -54,6 +54,8 @@ void Trip::createShortestRoute(Restaurant initial){
     }
 }
 
+
+/* move these to food app
 void Trip::addMenuItemToTrip(MenuItem item, int restaurantID){
     this->selectedItems.insert(std::pair<int, MenuItem>(restaurantID, item));
 }
@@ -61,3 +63,4 @@ void Trip::addMenuItemToTrip(MenuItem item, int restaurantID){
 void Trip::addRestaurantToTrip(Restaurant restaurant){
     this->selectedRestaurants.push_back(restaurant);
 }
+*/
