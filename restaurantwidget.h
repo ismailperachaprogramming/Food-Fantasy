@@ -9,12 +9,13 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QComboBox>
+#include "mainwindow.h"
 
 class RestaurantWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit RestaurantWidget(Restaurant restaurantPassed, QWidget *parent = nullptr);
+    explicit RestaurantWidget(Restaurant restaurantPassed, MainWindow *parent = nullptr);
 
     ~RestaurantWidget();
 
@@ -26,10 +27,11 @@ private:
 
     //restaurant that this ui element represents
     Restaurant restaurant;
+    MainWindow *parent;
 
 private slots:
     //these call methods in mainwindow.cpp
-   void on_AddRestaurantClicked(QString restaurantName);
+   void on_AddRestaurantClicked();
    void on_AddMenuItemClicked(int index);
 
 

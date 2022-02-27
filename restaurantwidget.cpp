@@ -1,8 +1,8 @@
 #include "restaurantwidget.h"
 #include "restaurant.h"
 
-RestaurantWidget::RestaurantWidget(Restaurant restaurantPassed, QWidget *parent)
-    : QWidget{parent}, restaurant{restaurantPassed}
+RestaurantWidget::RestaurantWidget(Restaurant restaurantPassed, MainWindow *parent)
+    :restaurant{restaurantPassed}, parent{parent}
 {
 
     layout = new QHBoxLayout(this);
@@ -15,13 +15,15 @@ RestaurantWidget::RestaurantWidget(Restaurant restaurantPassed, QWidget *parent)
     }
 
     menuItems->connect(menuItems, SIGNAL(currentIndexChanged(int)), this, SLOT(on_AddMenuItemClicked(int)));
+    addButton->connect(addButton, SIGNAL(clicked()), this, SLOT(on_AddRestaurantClicked()));
 
     layout->addWidget(nameLabel);
     layout->addWidget(addButton);
     layout->addWidget(menuItems);
 }
 
-void RestaurantWidget::on_AddRestaurantClicked(QString restaurantName) {
+void RestaurantWidget::on_AddRestaurantClicked() {
+    qInfo() << "Restaurant clicked: " << this->restaurant.getName();
 
 }
 

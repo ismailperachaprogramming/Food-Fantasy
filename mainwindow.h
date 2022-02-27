@@ -20,6 +20,8 @@ public:
     void addRestaurant(Restaurant restaurant);
     void addMenuItem(Restaurant restaurant, MenuItem item);
 
+
+
     ~MainWindow();
 
 private:
