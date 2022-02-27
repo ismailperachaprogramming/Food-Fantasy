@@ -27,8 +27,10 @@ void MainWindow::addToList(QString name)
 
     if(std::find(nameList.begin(), nameList.end(), name) == nameList.end())
     {
+
        customList->addItem(name);
        nameList.push_back(name);
+
     }
     else
     {
@@ -45,8 +47,10 @@ void MainWindow::addToMenuList(QString name, QString restaurantName)
 
     if(std::find(nameList.begin(), nameList.end(), restaurantName) != nameList.end())
     {
+
         customList->addItem(name);
         menuList.push_back(name);
+
     }
     else
     {
@@ -54,18 +58,65 @@ void MainWindow::addToMenuList(QString name, QString restaurantName)
     }
 }
 
+void MainWindow::addRestaurant(Restaurant restaurant){
+    app.addRestaurant(restaurant);
+}
+
+void MainWindow::addMenuItem(Restaurant restaurant, MenuItem item){
+    app.addMenuItem(restaurant, item);
+}
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-
-
-
 void MainWindow::on_planTrip_clicked()
 {
+    qInfo() << "Planning trip!";
+    if(this->nameList.size() > 0 && this->menuList.size() > 0){
+        app.startTrip(ui->startSaddleback->isCheckable());
+    }
+    qInfo() << "Total money spent: " << app.getCurrentTrip()->getTotalSpent();
+    ui->totalSpentLabel->setText("$" + QString::number(app.getCurrentTrip()->getTotalSpent()));
 
+    //for (int i = 0; i < )
+
+    qInfo() << "Total distance travelled: " << app.getCurrentTrip()->getTotalDistance();
+    ui->distanceLabel->setText(QString::number(app.getCurrentTrip()->getTotalDistance()) + " mi.");
+
+    std::queue<Restaurant> route = app.getCurrentTrip()->getRoute();
+
+    qInfo() << "Most efficient route: ";
+
+    int count = 1;
+    if (app.getCurrentTrip()->isFromSaddleback()){
+        ui->routeList->addItem("1. Saddleback College");
+    }
+    count++;
+    while (route.empty() != true){
+        qInfo() << route.front().getName();
+        ui->routeList->addItem(QString::number(count) + ". " + route.front().getName());
+        count++;
+        route.pop();
+    }
+
+    qInfo() << "Money spent per restaurant: ";
+
+    std::map<int,double> moneySpent = app.getCurrentTrip()->getMoneySpent();
+    std::map<int,double>::iterator it;
+    std::vector<Restaurant> allRestaurants = app.getRestaurants();
+    for (it = moneySpent.begin(); it != moneySpent.end(); it++){
+        int id = it->first;
+        for (int i = 0; i < allRestaurants.size(); i++){
+            if (allRestaurants[i].getID() == id){
+                qInfo() << "Money spent at " << allRestaurants[i].getName() << ": " << it->second;
+                QString string = "Money spent at " + allRestaurants[i].getName() + ": $" + QString::number(it->second);
+                ui->spentList->addItem(string);
+            }
+        }
+
+    }
 
 }
 

@@ -39,6 +39,8 @@ void FoodApp::startTrip(bool startingFromSaddleback){
     //add menu items to selected menu items multi map
     this->currentTrip = new Trip(startingFromSaddleback, selectedRestaurants, selectedItems);
 
+
+
 }
 
 FoodApp::~FoodApp(){

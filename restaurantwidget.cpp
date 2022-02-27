@@ -32,6 +32,8 @@ void RestaurantWidget::on_AddRestaurantClicked() {
     qInfo() << "Restaurant clicked: " << name;
     parent->addToList(name);
 
+    //actual foodapp connection
+    parent->addRestaurant(this->restaurant);
 }
 
 void RestaurantWidget::on_AddMenuItemClicked(int index){
@@ -39,6 +41,9 @@ void RestaurantWidget::on_AddMenuItemClicked(int index){
     QString restaurantName = this->restaurant.getName();
     QString itemName = this->restaurant.getMenu()[index].name + " - $" + QString::number(this->restaurant.getMenu()[index].price);
     parent->addToMenuList(itemName, restaurantName);
+
+    //actual foodapp connection
+    parent->addMenuItem(this->restaurant, this->restaurant.getMenu()[index]);
 }
 
 RestaurantWidget::~RestaurantWidget(){

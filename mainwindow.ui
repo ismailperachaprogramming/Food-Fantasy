@@ -97,7 +97,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Franklin Gothic Medium Cond</family>
       <pointsize>28</pointsize>
      </font>
     </property>
@@ -116,7 +115,6 @@
     </property>
     <property name="font">
      <font>
-      <family>Franklin Gothic Medium Cond</family>
       <pointsize>20</pointsize>
      </font>
     </property>
@@ -145,12 +143,109 @@
     </property>
     <property name="font">
      <font>
-      <family>Franklin Gothic Medium Cond</family>
       <pointsize>28</pointsize>
      </font>
     </property>
     <property name="text">
      <string>Food Ordered</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="routeList">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>560</y>
+      <width>211</width>
+      <height>191</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>540</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Most efficient route:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>640</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Total spent:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="totalSpentLabel">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>640</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>$0</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="spentList">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>560</y>
+      <width>281</width>
+      <height>191</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>540</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Money spent per restaurant:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>670</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Total distance:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="distanceLabel">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>670</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0 mi.</string>
     </property>
    </widget>
   </widget>
@@ -160,7 +255,7 @@
      <x>0</x>
      <y>0</y>
      <width>1430</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
