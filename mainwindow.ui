@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1430</width>
+    <height>821</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="planTrip">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>540</y>
+      <width>101</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Plan Trip</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="restaurantList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>831</width>
+      <height>481</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="customTrip">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>570</y>
+      <width>99</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Custom Trip</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="startSaddleback">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>540</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Starting from Saddleback</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="startDominos">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>600</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Starting from Domino's</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="customList">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>50</y>
+      <width>171</width>
+      <height>481</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="totalLabel">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>0</y>
+      <width>221</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Franklin Gothic Medium Cond</family>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Restaurant List</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="customLabel">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>0</y>
+      <width>271</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Franklin Gothic Medium Cond</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Restaurants Added To Trip</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="menuList">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>50</y>
+      <width>361</width>
+      <height>481</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="customLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>1140</x>
+      <y>0</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Franklin Gothic Medium Cond</family>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Food Ordered</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1430</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
