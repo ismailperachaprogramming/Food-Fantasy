@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "foodapp.h"
 #include "restaurantwidget.h"
+#include "listofrestaurants.h"
 #include <iostream>
 
 QT_BEGIN_NAMESPACE
@@ -29,11 +30,15 @@ private slots:
 
     void on_planTrip_clicked();
 
+    void on_openListButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     FoodApp app;
     std::vector<QString> nameList;
     std::vector<QString> menuList;
+
+    listOfRestaurants* popup;
 
 };
 #endif // MAINWINDOW_H

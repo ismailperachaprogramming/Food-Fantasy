@@ -38,6 +38,9 @@ bool Database::modifyMenu(Restaurant restaurant, std::vector<MenuItem> menu){
 }
 
 bool Database::getRestaurants(std::vector<Restaurant>& restaurants){
+    if (restaurants.size() > 0){
+        restaurants.clear();
+    }
     //modified passed in restaurants vector
 
     //query all restaurants in restaurants table

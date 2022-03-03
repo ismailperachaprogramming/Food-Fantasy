@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     std::vector<Restaurant> restaurants = this->app.getRestaurants();
     for (int i = 0; i< restaurants.size(); i++)
     {
-        std::cout << "ran once " << i << std::endl;
+        //std::cout << "ran once " << i << std::endl;
         RestaurantWidget *restaurantItem = new RestaurantWidget(restaurants[i], this);
         QListWidgetItem *item = new QListWidgetItem(restaurantList);
         restaurantList->addItem(item);
@@ -80,9 +80,7 @@ void MainWindow::on_planTrip_clicked()
     qInfo() << "Total money spent: " << app.getCurrentTrip()->getTotalSpent();
     ui->totalSpentLabel->setText("$" + QString::number(app.getCurrentTrip()->getTotalSpent()));
 
-    //for (int i = 0; i < )
 
-    qInfo() << "Total distance travelled: " << app.getCurrentTrip()->getTotalDistance();
     ui->distanceLabel->setText(QString::number(app.getCurrentTrip()->getTotalDistance()) + " mi.");
 
     std::queue<Restaurant> route = app.getCurrentTrip()->getRoute();
@@ -118,5 +116,12 @@ void MainWindow::on_planTrip_clicked()
 
     }
 
+}
+
+
+void MainWindow::on_openListButton_clicked()
+{
+    popup = new listOfRestaurants(app.getRestaurants(), this);
+    popup->show();
 }
 

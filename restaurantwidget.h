@@ -11,6 +11,8 @@ class MainWindow;
 #include <QLabel>
 #include <QPushButton>
 #include <QComboBox>
+#include <QMessageBox>
+#include <QSpinBox>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -27,6 +29,8 @@ private:
     QLabel *nameLabel;
     QPushButton *addButton;
     QComboBox *menuItems;
+    QSpinBox *itemsToAdd;
+    QPushButton *addItemButton;
 
     //restaurant that this ui element represents
     Restaurant restaurant;
@@ -35,7 +39,7 @@ private:
 private slots:
     //these call methods in mainwindow.cpp
    void on_AddRestaurantClicked();
-   void on_AddMenuItemClicked(int index);
+   void on_AddMenuItemClicked();
 
 
 };

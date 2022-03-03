@@ -32,7 +32,7 @@
      <rect>
       <x>10</x>
       <y>50</y>
-      <width>831</width>
+      <width>881</width>
       <height>481</height>
      </rect>
     </property>
@@ -79,7 +79,7 @@
    <widget class="QListWidget" name="customList">
     <property name="geometry">
      <rect>
-      <x>860</x>
+      <x>900</x>
       <y>50</y>
       <width>171</width>
       <height>481</height>
@@ -89,9 +89,9 @@
    <widget class="QLabel" name="totalLabel">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>300</x>
       <y>0</y>
-      <width>221</width>
+      <width>291</width>
       <height>41</height>
      </rect>
     </property>
@@ -101,13 +101,13 @@
      </font>
     </property>
     <property name="text">
-     <string>Restaurant List</string>
+     <string>Restaurant Trip Planner</string>
     </property>
    </widget>
    <widget class="QLabel" name="customLabel">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>880</x>
       <y>0</y>
       <width>271</width>
       <height>41</height>
@@ -125,9 +125,9 @@
    <widget class="QListWidget" name="menuList">
     <property name="geometry">
      <rect>
-      <x>1050</x>
+      <x>1100</x>
       <y>50</y>
-      <width>361</width>
+      <width>311</width>
       <height>481</height>
      </rect>
     </property>
@@ -246,6 +246,19 @@
     </property>
     <property name="text">
      <string>0 mi.</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="openListButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>151</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Open Restaurant List</string>
     </property>
    </widget>
   </widget>
