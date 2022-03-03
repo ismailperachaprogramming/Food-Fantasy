@@ -57,8 +57,16 @@ void RestaurantWidget::on_AddMenuItemClicked(){
     //and get the number of items they want to add
     //call add menu item in a for loop where the loop runs however many times they want to add the item
 
+    int itemCount = 0;
+    std::vector<QString> itemsAdded = parent->getMenuList();
+    for (int i = 0; i < itemsAdded.size(); i++){
+        if (itemsAdded[i] == itemName){
+            itemCount++;
+        }
+    }
+
     //actual foodapp connection
-    if (count <= 100){
+    if (itemCount + count <= 100){
         for (int i = 0; i < count; i++){
             parent->addMenuItem(this->restaurant, this->restaurant.getMenu()[currentIndex]);
             parent->addToMenuList(itemName, this->restaurant.getName());

@@ -22,6 +22,7 @@ public:
     void addMenuItem(Restaurant restaurant, MenuItem item);
     void addToList(QString name);
     void addToMenuList(QString name, QString restaurantName);
+    std::vector<QString> getMenuList() const { return menuList; }
 
 
     ~MainWindow();
