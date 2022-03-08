@@ -1,11 +1,12 @@
 #include "trip.h"
 #include <iostream>
 
-Trip::Trip(bool startingFromSaddleback, std::vector<Restaurant> selectedRestaurants, std::multimap<int, MenuItem> selectedItems)
+Trip::Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Restaurant> selectedRestaurants, std::multimap<int, MenuItem> selectedItems)
 {
     this->selectedRestaurants = selectedRestaurants;
     this->selectedItems = selectedItems;
     this->startingFromSaddleback = startingFromSaddleback;
+    this->startingFromDominos = startingFromDominos;
 
     this->totalDistance = 0;
     this->totalSpent = 0;
@@ -33,7 +34,6 @@ Trip::Trip(bool startingFromSaddleback, std::vector<Restaurant> selectedRestaura
         }
     }
 
-
 }
 
 void Trip::startTrip(Restaurant* startingRestaurant){
@@ -56,11 +56,14 @@ void Trip::startTrip(Restaurant* startingRestaurant){
         this->totalDistance += shortestDistance;
         //remove closest restaurant to saddleback from our restaurants to choose from vector
         selectedRestaurants.erase(selectedRestaurants.begin() + index);
-        std::cout << std::endl << "called with id: " << id << std::endl;
         createShortestRoute(id);
     } else {
-        std::cout << std::endl << "Else called with index 0" << std::endl;
-        createShortestRoute(startingRestaurant->getID());
+        if (startingFromDominos){
+            //3 is domino's id
+            createShortestRoute(3);
+        } else {
+            createShortestRoute(startingRestaurant->getID());
+        }
     }
 
 }
@@ -110,12 +113,3 @@ void Trip::createShortestRoute(int initialID){
 }
 
 
-/* move these to food app
-void Trip::addMenuItemToTrip(MenuItem item, int restaurantID){
-    this->selectedItems.insert(std::pair<int, MenuItem>(restaurantID, item));
-}
-
-void Trip::addRestaurantToTrip(Restaurant restaurant){
-    this->selectedRestaurants.push_back(restaurant);
-}
-*/

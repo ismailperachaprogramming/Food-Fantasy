@@ -36,10 +36,14 @@ RestaurantWidget::RestaurantWidget(Restaurant restaurantPassed, MainWindow *pare
 void RestaurantWidget::on_AddRestaurantClicked() {
     QString name = this->restaurant.getName();
     qInfo() << "Restaurant clicked: " << name;
-    parent->addToList(name);
 
     //actual foodapp connection
     parent->addRestaurant(this->restaurant);
+
+    //adding restaurant to GUI list
+    parent->addToList(name);
+
+
 }
 
 void RestaurantWidget::on_AddMenuItemClicked(){

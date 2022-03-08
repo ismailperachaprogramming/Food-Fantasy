@@ -33,11 +33,11 @@ void FoodApp::printRestaurants() const {
     }
 }
 
-void FoodApp::startTrip(bool startingFromSaddleback){
+void FoodApp::startTrip(bool startingFromSaddleback, bool startingFromDominos){
     //call addRestaurantToTrip for each selected restaurant
 
     //add menu items to selected menu items multi map
-    this->currentTrip = new Trip(startingFromSaddleback, selectedRestaurants, selectedItems);
+    this->currentTrip = new Trip(startingFromSaddleback, startingFromDominos, selectedRestaurants, selectedItems);
 
 
 

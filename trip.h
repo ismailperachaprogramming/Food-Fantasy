@@ -12,7 +12,7 @@
 class Trip
 {
 public:
-    Trip(bool startingFromSaddleback, std::vector<Restaurant> selectedRestaurants, std::multimap<int, MenuItem> selectedItems);
+    Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Restaurant> selectedRestaurants, std::multimap<int, MenuItem> selectedItems);
 
     void startTrip(Restaurant* startingRestaurant);
 
@@ -33,6 +33,7 @@ private:
     double totalSpent;
     double totalDistance;
     bool startingFromSaddleback;
+    bool startingFromDominos;
 
     //Vector that we add restaurants to when they are selected in the UI
     std::vector<Restaurant> selectedRestaurants;

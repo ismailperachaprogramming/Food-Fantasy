@@ -59,7 +59,16 @@ void MainWindow::addToMenuList(QString name, QString restaurantName)
 }
 
 void MainWindow::addRestaurant(Restaurant restaurant){
-    app.addRestaurant(restaurant);
+
+    qInfo() << restaurant.getName() << "Test";
+
+    if(std::find(nameList.begin(), nameList.end(), restaurant.getName()) == nameList.end() )
+    {
+       app.addRestaurant(restaurant);
+    } else {
+        QMessageBox popup;
+        popup.critical(0, "Error", "Cannot add the same restaurant twice.");
+    }
 }
 
 void MainWindow::addMenuItem(Restaurant restaurant, MenuItem item){
@@ -73,47 +82,66 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_planTrip_clicked()
 {
+
+    bool errorExists;
+
     qInfo() << "Planning trip!";
     if(this->nameList.size() > 0 && this->menuList.size() > 0){
-        app.startTrip(ui->startSaddleback->isCheckable());
-    }
-    qInfo() << "Total money spent: " << app.getCurrentTrip()->getTotalSpent();
-    ui->totalSpentLabel->setText("$" + QString::number(app.getCurrentTrip()->getTotalSpent()));
-
-
-    ui->distanceLabel->setText(QString::number(app.getCurrentTrip()->getTotalDistance()) + " mi.");
-
-    std::queue<Restaurant> route = app.getCurrentTrip()->getRoute();
-
-    qInfo() << "Most efficient route: ";
-
-    int count = 1;
-    if (app.getCurrentTrip()->isFromSaddleback()){
-        ui->routeList->addItem("1. Saddleback College");
-    }
-    count++;
-    while (route.empty() != true){
-        qInfo() << route.front().getName();
-        ui->routeList->addItem(QString::number(count) + ". " + route.front().getName());
-        count++;
-        route.pop();
-    }
-
-    qInfo() << "Money spent per restaurant: ";
-
-    std::map<int,double> moneySpent = app.getCurrentTrip()->getMoneySpent();
-    std::map<int,double>::iterator it;
-    std::vector<Restaurant> allRestaurants = app.getRestaurants();
-    for (it = moneySpent.begin(); it != moneySpent.end(); it++){
-        int id = it->first;
-        for (int i = 0; i < allRestaurants.size(); i++){
-            if (allRestaurants[i].getID() == id){
-                qInfo() << "Money spent at " << allRestaurants[i].getName() << ": " << it->second;
-                QString string = "Money spent at " + allRestaurants[i].getName() + ": $" + QString::number(it->second);
-                ui->spentList->addItem(string);
+        if (ui->startDominos->isChecked()){
+            if(std::find(nameList.begin(), nameList.end(), "Domino's Pizza") != nameList.end())
+            {
+                app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
+            } else {
+                QMessageBox popup;
+                errorExists = 1;
+                popup.critical(0, "Error", "Cannot start a trip from Domino's without adding it first.");
             }
+        } else {
+            app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
+        }
+    }
+
+    if (!errorExists){
+
+        qInfo() << "Total money spent: " << app.getCurrentTrip()->getTotalSpent();
+        ui->totalSpentLabel->setText("$" + QString::number(app.getCurrentTrip()->getTotalSpent()));
+
+
+        ui->distanceLabel->setText(QString::number(app.getCurrentTrip()->getTotalDistance()) + " mi.");
+
+        std::queue<Restaurant> route = app.getCurrentTrip()->getRoute();
+
+        qInfo() << "Most efficient route: ";
+
+        int count = 1;
+        if (app.getCurrentTrip()->isFromSaddleback()){
+            ui->routeList->addItem("1. Saddleback College");
+            count++;
         }
 
+        while (route.empty() != true){
+            qInfo() << route.front().getName();
+            ui->routeList->addItem(QString::number(count) + ". " + route.front().getName());
+            count++;
+            route.pop();
+        }
+
+        qInfo() << "Money spent per restaurant: ";
+
+        std::map<int,double> moneySpent = app.getCurrentTrip()->getMoneySpent();
+        std::map<int,double>::iterator it;
+        std::vector<Restaurant> allRestaurants = app.getRestaurants();
+        for (it = moneySpent.begin(); it != moneySpent.end(); it++){
+            int id = it->first;
+            for (int i = 0; i < allRestaurants.size(); i++){
+                if (allRestaurants[i].getID() == id){
+                    qInfo() << "Money spent at " << allRestaurants[i].getName() << ": " << it->second;
+                    QString string = "Money spent at " + allRestaurants[i].getName() + ": $" + QString::number(it->second);
+                    ui->spentList->addItem(string);
+                }
+            }
+
+        }
     }
 
 }

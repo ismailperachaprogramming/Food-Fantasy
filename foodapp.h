@@ -23,7 +23,7 @@ public:
     Trip* getCurrentTrip() const { if (currentTrip != nullptr) return currentTrip; }
 
     //send true if button to start from saddleback is true
-    void startTrip(bool startingFromSaddleback);
+    void startTrip(bool startingFromSaddleback, bool startingFromDominos);
 
     //we need methods to add menu items and restaurants in here to keep track of where they want to go..
     void addRestaurant(Restaurant restaurant) { selectedRestaurants.push_back(restaurant); };
