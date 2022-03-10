@@ -33,6 +33,8 @@ private slots:
 
     void on_openListButton_clicked();
 
+    void on_clearButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     FoodApp app;

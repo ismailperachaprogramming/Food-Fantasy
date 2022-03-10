@@ -47,22 +47,16 @@ void RestaurantWidget::on_AddRestaurantClicked() {
 }
 
 void RestaurantWidget::on_AddMenuItemClicked(){
-    /*qInfo() << "Item clicked: " << this->restaurant.getMenu()[index].name << "from restaurant: " << this->restaurant.getName();
-    QString restaurantName = this->restaurant.getName();
-    QString itemName = this->restaurant.getMenu()[index].name + " - $" + QString::number(this->restaurant.getMenu()[index].price);
-    parent->addToMenuList(itemName, restaurantName);
-    */
-
+    //Gather UI data
     int count = this->itemsToAdd->value();
     int currentIndex = this->menuItems->currentIndex();
     QString itemName = this->restaurant.getMenu()[currentIndex].name + " - $" + QString::number(this->restaurant.getMenu()[currentIndex].price);
 
-    //change it to find which item is selected on combobox
-    //and get the number of items they want to add
-    //call add menu item in a for loop where the loop runs however many times they want to add the item
-
     int itemCount = 0;
     std::vector<QString> itemsAdded = parent->getMenuList();
+
+    //Loop through existing menu items added to see how many we've already added for this specific kind of item
+    //Need to do this since we can only add 100 of the same item in a trip
     for (int i = 0; i < itemsAdded.size(); i++){
         if (itemsAdded[i] == itemName){
             itemCount++;
@@ -71,8 +65,11 @@ void RestaurantWidget::on_AddMenuItemClicked(){
 
     //actual foodapp connection
     if (itemCount + count <= 100){
+        //Loop count times where count is the number of items being added
         for (int i = 0; i < count; i++){
+            //Add menu item to FoodApp selectedItems
             parent->addMenuItem(this->restaurant, this->restaurant.getMenu()[currentIndex]);
+            //Add menu item to GUI/UI list
             parent->addToMenuList(itemName, this->restaurant.getName());
         }
     } else {

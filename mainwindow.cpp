@@ -72,7 +72,17 @@ void MainWindow::addRestaurant(Restaurant restaurant){
 }
 
 void MainWindow::addMenuItem(Restaurant restaurant, MenuItem item){
-    app.addMenuItem(restaurant, item);
+
+    if(std::find(nameList.begin(), nameList.end(), restaurant.getName()) != nameList.end())
+    {
+        //Restaurant this menu items belongs to has been added to trip already. Safe to add menu item.
+        app.addMenuItem(restaurant, item);
+    }
+    else
+    {
+        QMessageBox popup;
+        popup.critical(0, "Error", "Cannot add menu item before adding restaurant to trip.");
+    }
 }
 
 MainWindow::~MainWindow()
@@ -83,7 +93,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_planTrip_clicked()
 {
 
-    bool errorExists;
+    bool errorExists = false;
 
     qInfo() << "Planning trip!";
     if(this->nameList.size() > 0 && this->menuList.size() > 0){
@@ -93,12 +103,16 @@ void MainWindow::on_planTrip_clicked()
                 app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
             } else {
                 QMessageBox popup;
-                errorExists = 1;
+                errorExists = true;
                 popup.critical(0, "Error", "Cannot start a trip from Domino's without adding it first.");
             }
         } else {
             app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
         }
+    } else {
+        QMessageBox popup;
+        errorExists = true;
+        popup.critical(0, "Error", "Cannot start a trip without adding any menu items or restaurants.");
     }
 
     if (!errorExists){
@@ -151,5 +165,19 @@ void MainWindow::on_openListButton_clicked()
 {
     popup = new listOfRestaurants(app.getRestaurants(), this);
     popup->show();
+}
+
+
+void MainWindow::on_clearButton_clicked()
+{
+    this->nameList.clear();
+    this->menuList.clear();
+
+    this->ui->customList->clear();
+    this->ui->menuList->clear();
+    this->ui->routeList->clear();
+    this->ui->spentList->clear();
+
+    this->app.clearTrip();
 }
 

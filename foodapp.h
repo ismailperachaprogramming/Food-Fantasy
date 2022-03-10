@@ -28,6 +28,8 @@ public:
     //we need methods to add menu items and restaurants in here to keep track of where they want to go..
     void addRestaurant(Restaurant restaurant) { selectedRestaurants.push_back(restaurant); };
     void addMenuItem(Restaurant restaurant, MenuItem item) { selectedItems.insert(std::pair<int, MenuItem>(restaurant.getID(), item)); };
+    void clearTrip() {currentTrip = nullptr; selectedRestaurants.clear(); selectedItems.clear(); };
+
 
     ~FoodApp();
 
