@@ -97,7 +97,9 @@ void MainWindow::on_planTrip_clicked()
 
     qInfo() << "Planning trip!";
     if(this->nameList.size() > 0 && this->menuList.size() > 0){
+        qInfo() << "Passed 1";
         if (ui->startDominos->isChecked()){
+            std::cout << "Start from dominos checked and were calling";
             if(std::find(nameList.begin(), nameList.end(), "Domino's Pizza") != nameList.end())
             {
                 app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
@@ -107,6 +109,7 @@ void MainWindow::on_planTrip_clicked()
                 popup.critical(0, "Error", "Cannot start a trip from Domino's without adding it first.");
             }
         } else {
+            qInfo() << "Calling here.";
             app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
         }
     } else {

@@ -61,7 +61,7 @@ bool Database::getRestaurants(std::vector<Restaurant>& restaurants){
         QJsonDocument json = QJsonDocument::fromJson(distances.toUtf8());
         QJsonArray jsonArray = json.array();
 
-        for (int i = 0; i <= jsonArray.size(); i++){
+        for (int i = 0; i < jsonArray.size(); i++){
             distancesVector.push_back(jsonArray.at(i).toDouble());
         }
 

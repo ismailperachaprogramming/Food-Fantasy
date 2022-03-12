@@ -1,8 +1,10 @@
 #include "trip.h"
 #include <iostream>
+#include <QDebug>
 
 Trip::Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Restaurant> selectedRestaurants, std::multimap<int, MenuItem> selectedItems)
 {
+    std::cout << "called constructor.";
     this->selectedRestaurants = selectedRestaurants;
     this->selectedItems = selectedItems;
     this->startingFromSaddleback = startingFromSaddleback;
@@ -37,7 +39,9 @@ Trip::Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Re
 }
 
 void Trip::startTrip(Restaurant* startingRestaurant){
+    std::cout << "called.";
     if (startingFromSaddleback){
+        std::cout << "Called starting from saddleback";
         double shortestDistance = 10000;
         int id = 0;
         int index = 0;
@@ -59,9 +63,41 @@ void Trip::startTrip(Restaurant* startingRestaurant){
         createShortestRoute(id);
     } else {
         if (startingFromDominos){
+            qInfo() << "Domino's test";
             //3 is domino's id
-            createShortestRoute(3);
+            Restaurant *dominos = nullptr;
+            int index = 0;
+            for (int i = 0; i < selectedRestaurants.size(); i++){
+                if (selectedRestaurants[i].getID() == 3){
+                    dominos = &selectedRestaurants[i];
+                    index = i;
+                }
+            }
+            this->route.push(*dominos);
+            selectedRestaurants.erase(selectedRestaurants.begin() + index);
+
+            //find closest restaurant to dominos and call createShortestRoute with that id
+            double shortestDistance = 10000;
+            int id = 0;
+            int idx = 0;
+            Restaurant* closest;
+            for (int i = 0; i < selectedRestaurants.size(); i++){
+                if (selectedRestaurants[i].getDistances().at(2) < shortestDistance){
+                    closest = &selectedRestaurants[i];
+                    shortestDistance = selectedRestaurants[i].getSaddlebackDistance();
+                    id = selectedRestaurants[i].getID();
+                    idx = i;
+                }
+            }
+            selectedRestaurants.erase(selectedRestaurants.begin() + idx);
+            createShortestRoute(id);
         } else {
+            this->route.push(*startingRestaurant);
+            for (int i = 0; i < selectedRestaurants.size(); i++){
+                if (selectedRestaurants[i].getID() == startingRestaurant->getID()){
+                    selectedRestaurants.erase(selectedRestaurants.begin() + i);
+                }
+            }
             createShortestRoute(startingRestaurant->getID());
         }
     }
@@ -83,26 +119,28 @@ void Trip::createShortestRoute(int initialID){
         double shortestDistance = 10000;
         int index = 0;
         int id = 0;
-        Restaurant* closest;
+        Restaurant* closest = nullptr;
+        Restaurant initial = this->route.front();
         for (int i = 0; i < selectedRestaurants.size(); i++){
-
-            /* Uncomment once admin stuff has been featured and finish implementing
             if (initial.getDistances().size() > 10){
-                //initial is a new restaurant
-            }
-            */
-
-            //initial.getID() - 1 bc id starts at 1 but distances starts at index 0
-            std::cout << "Closest initial id is " << initialID << std::endl;
-            if (selectedRestaurants[i].getDistances().at(initialID - 1) < shortestDistance){
-                index = i;
-                id = selectedRestaurants[i].getID();
-                closest = &selectedRestaurants[i];
-                std::cout << std::endl << "Closest is at index: " << i << std::endl;
-                shortestDistance = selectedRestaurants[i].getDistances().at(initialID - 1);
+                //initial is a new restaurant, so we must look at initial distance from other restaurants since they might not have the data
+                if (initial.getDistances().at(selectedRestaurants[i].getID() - 1) < shortestDistance){
+                    index = i;
+                    id = selectedRestaurants[i].getID();
+                    closest = &selectedRestaurants[i];
+                    shortestDistance = initial.getDistances().at(selectedRestaurants[i].getID() - 1);
+                }
+            } else {
+                //initial.getID() - 1 bc id starts at 1 but distances starts at index 0
+                if (selectedRestaurants[i].getDistances().at(initialID - 1) < shortestDistance){
+                    index = i;
+                    id = selectedRestaurants[i].getID();
+                    closest = &selectedRestaurants[i];
+                    std::cout << std::endl << "Closest is at index: " << i << std::endl;
+                    shortestDistance = selectedRestaurants[i].getDistances().at(initialID - 1);
+                }
             }
         }
-        std::cout << std::endl << "Distance 2: " << shortestDistance << std::endl;
         this->totalDistance += shortestDistance;
         this->route.push(*closest);
         selectedRestaurants.erase(selectedRestaurants.begin() + index);
