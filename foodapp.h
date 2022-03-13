@@ -16,18 +16,21 @@ class FoodApp
 {
 public:
     FoodApp();
-    //test method - delete later
+
+    //Delete this method
     void printRestaurants() const;
 
     std::vector<Restaurant> getRestaurants() const { return restaurants; };
     Trip* getCurrentTrip() const { if (currentTrip != nullptr) return currentTrip; }
 
-    //send true if button to start from saddleback is true
+    //Creates a Trip object and assigns currentTrip (Trip pointer) in this class to the newly made trip.
     void startTrip(bool startingFromSaddleback, bool startingFromDominos);
 
-    //we need methods to add menu items and restaurants in here to keep track of where they want to go..
+    //Adds a restaurant to selected restaurants - this is important for before they click "Plan trip" since we must keep track.
     void addRestaurant(Restaurant restaurant) { selectedRestaurants.push_back(restaurant); };
     void addMenuItem(Restaurant restaurant, MenuItem item) { selectedItems.insert(std::pair<int, MenuItem>(restaurant.getID(), item)); };
+
+    //Set currentTrip to nullptr so the user can make a new trip
     void clearTrip() {currentTrip = nullptr; selectedRestaurants.clear(); selectedItems.clear(); };
 
 

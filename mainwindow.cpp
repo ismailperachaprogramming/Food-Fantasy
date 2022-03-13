@@ -7,12 +7,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     //set up ui
+    //This is the list widget that holds each restaurant row
     QListWidget *restaurantList = ui->restaurantList;
 
+    //Create a RestaurantWidget object for each restaurant and add it to the restaurantList list widget.
     std::vector<Restaurant> restaurants = this->app.getRestaurants();
     for (int i = 0; i< restaurants.size(); i++)
     {
-        //std::cout << "ran once " << i << std::endl;
         RestaurantWidget *restaurantItem = new RestaurantWidget(restaurants[i], this);
         QListWidgetItem *item = new QListWidgetItem(restaurantList);
         restaurantList->addItem(item);
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 }
 
+//Purely for adding restaurant to UI list
 void MainWindow::addToList(QString name)
 {
     QListWidget* customList = ui->customList;
@@ -40,6 +42,7 @@ void MainWindow::addToList(QString name)
 
 }
 
+//Purely for adding menu item to UI list
 void MainWindow::addToMenuList(QString name, QString restaurantName)
 {
     QListWidget* customList = ui->menuList;
@@ -58,12 +61,15 @@ void MainWindow::addToMenuList(QString name, QString restaurantName)
     }
 }
 
+//Needed for calculating the trip information
 void MainWindow::addRestaurant(Restaurant restaurant){
 
     qInfo() << restaurant.getName() << "Test";
 
+
     if(std::find(nameList.begin(), nameList.end(), restaurant.getName()) == nameList.end() )
     {
+       //Restaurant hasn't been added already, we are good to pass it to FoodApp
        app.addRestaurant(restaurant);
     } else {
         QMessageBox popup;
@@ -92,12 +98,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_planTrip_clicked()
 {
-
+    //Set this to true if we run into input validation
     bool errorExists = false;
 
-    qInfo() << "Planning trip!";
     if(this->nameList.size() > 0 && this->menuList.size() > 0){
-        qInfo() << "Passed 1";
         if (ui->startDominos->isChecked()){
             std::cout << "Start from dominos checked and were calling";
             if(std::find(nameList.begin(), nameList.end(), "Domino's Pizza") != nameList.end())
@@ -109,7 +113,6 @@ void MainWindow::on_planTrip_clicked()
                 popup.critical(0, "Error", "Cannot start a trip from Domino's without adding it first.");
             }
         } else {
-            qInfo() << "Calling here.";
             app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
         }
     } else {
@@ -119,6 +122,7 @@ void MainWindow::on_planTrip_clicked()
     }
 
     if (!errorExists){
+        //Input is properly validated, continue with displaying trip information to UI
 
         qInfo() << "Total money spent: " << app.getCurrentTrip()->getTotalSpent();
         ui->totalSpentLabel->setText("$" + QString::number(app.getCurrentTrip()->getTotalSpent()));
@@ -182,5 +186,12 @@ void MainWindow::on_clearButton_clicked()
     this->ui->spentList->clear();
 
     this->app.clearTrip();
+}
+
+
+void MainWindow::on_customTrip_clicked()
+{
+    QMessageBox popup;
+    popup.information(0, "Info", "The first restaurant you add to the trip will be the starting restaurant.");
 }
 

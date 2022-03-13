@@ -35,6 +35,8 @@ private slots:
 
     void on_clearButton_clicked();
 
+    void on_customTrip_clicked();
+
 private:
     Ui::MainWindow *ui;
     FoodApp app;
