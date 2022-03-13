@@ -82,7 +82,8 @@ void Trip::startTrip(Restaurant* startingRestaurant){
                     idx = i;
                 }
             }
-            selectedRestaurants.erase(selectedRestaurants.begin() + idx);
+            //selectedRestaurants.erase(selectedRestaurants.begin() + idx);
+            qInfo() << "Name of closest to dominos: " << closest->getName();
             createShortestRoute(id);
         } else {
             this->route.push(*startingRestaurant);

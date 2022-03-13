@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "foodapp.h"
 #include "restaurantwidget.h"
+#include "restaurant.h"
+#include "Database.h"
 #include "listofrestaurants.h"
 #include <iostream>
 
@@ -39,9 +41,20 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    FoodApp app;
     std::vector<QString> nameList;
     std::vector<QString> menuList;
+
+    //Database object - use this to interact with SQLite database
+    Database db;
+    //Stores the currentTrip. nullptr upon program opening.
+    Trip* currentTrip;
+    //all restaurants in db are in this vector
+    std::vector<Restaurant> restaurants;
+
+    //For keeping track of UI clicked on
+    std::vector<Restaurant> selectedRestaurants;
+    //Multi map that stores menu item objects to a corresponding key, where the key is the restaurant
+    std::multimap<int, MenuItem> selectedItems;
 
     listOfRestaurants* popup;
 

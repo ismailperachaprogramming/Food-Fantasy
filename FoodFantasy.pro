@@ -10,7 +10,6 @@ CONFIG += c++11
 
 SOURCES += \
     Database.cpp \
-    foodapp.cpp \
     listofrestaurants.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -20,7 +19,6 @@ SOURCES += \
 
 HEADERS += \
     Database.h \
-    foodapp.h \
     listofrestaurants.h \
     mainwindow.h \
     restaurant.h \
