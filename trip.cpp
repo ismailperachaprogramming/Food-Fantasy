@@ -4,7 +4,6 @@
 
 Trip::Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Restaurant> selectedRestaurants, std::multimap<int, MenuItem> selectedItems)
 {
-    std::cout << "called constructor.";
     this->selectedRestaurants = selectedRestaurants;
     this->selectedItems = selectedItems;
     this->startingFromSaddleback = startingFromSaddleback;
@@ -17,7 +16,6 @@ Trip::Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Re
     //selectedItems multi map int, MenuItem
     std::multimap<int, MenuItem>::iterator it;
     for (it = selectedItems.begin(); it != selectedItems.end(); it++){
-        //std::cout << it->second.price;
         this->totalSpent += it->second.price;
     }
 
@@ -27,7 +25,6 @@ Trip::Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Re
     //std::map<int, int> getMoneySpent() const { return moneySpent; }
     std::map<int, double>::iterator itr;
     for (it = selectedItems.begin(); it != selectedItems.end(); it++){
-        std::cout << "ran once!" << std::endl;
         //it->first is the id key
         if (moneySpent.find(it->first) == moneySpent.end()){
             moneySpent.insert(std::pair<int, double>(it->first, it->second.price));
@@ -39,9 +36,7 @@ Trip::Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Re
 }
 
 void Trip::startTrip(Restaurant* startingRestaurant){
-    std::cout << "called.";
     if (startingFromSaddleback){
-        std::cout << "Called starting from saddleback";
         double shortestDistance = 10000;
         int id = 0;
         int index = 0;
@@ -55,7 +50,6 @@ void Trip::startTrip(Restaurant* startingRestaurant){
             }
         }
         //Enqueue closest restaurant in our selected restaurants to saddleback
-        std::cout << "Distance: " << shortestDistance << std::endl;
         this->route.push(*closest);
         this->totalDistance += shortestDistance;
         //remove closest restaurant to saddleback from our restaurants to choose from vector
@@ -63,7 +57,6 @@ void Trip::startTrip(Restaurant* startingRestaurant){
         createShortestRoute(id);
     } else {
         if (startingFromDominos){
-            qInfo() << "Domino's test";
             //3 is domino's id
             Restaurant *dominos = nullptr;
             int index = 0;
@@ -89,7 +82,8 @@ void Trip::startTrip(Restaurant* startingRestaurant){
                     idx = i;
                 }
             }
-            selectedRestaurants.erase(selectedRestaurants.begin() + idx);
+            //selectedRestaurants.erase(selectedRestaurants.begin() + idx);
+            qInfo() << "Name of closest to dominos: " << closest->getName();
             createShortestRoute(id);
         } else {
             this->route.push(*startingRestaurant);
@@ -108,8 +102,6 @@ void Trip::createShortestRoute(int initialID){
     if (selectedRestaurants.size() == 1){
         // base case
         totalDistance += selectedRestaurants[0].getDistances().at(initialID - 1);
-        std::cout << "new distance added: " <<  selectedRestaurants[0].getDistances().at(initialID - 1) << std::endl;
-        std::cout << "id initial: " << selectedRestaurants[0].getID() << " item initial: " << initialID;
         this->route.push(selectedRestaurants[0]);
 
     } else if (selectedRestaurants.size() == 0){
@@ -136,7 +128,6 @@ void Trip::createShortestRoute(int initialID){
                     index = i;
                     id = selectedRestaurants[i].getID();
                     closest = &selectedRestaurants[i];
-                    std::cout << std::endl << "Closest is at index: " << i << std::endl;
                     shortestDistance = selectedRestaurants[i].getDistances().at(initialID - 1);
                 }
             }
@@ -145,7 +136,6 @@ void Trip::createShortestRoute(int initialID){
         this->route.push(*closest);
         selectedRestaurants.erase(selectedRestaurants.begin() + index);
         //recursive function call
-        std::cout << std::endl << "called with id: " << id << std::endl;
         createShortestRoute(id);
     }
 }

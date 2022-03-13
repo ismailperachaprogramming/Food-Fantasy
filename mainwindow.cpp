@@ -6,13 +6,20 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //Initialize our current trip pointer to nullptr
+    this->currentTrip = nullptr;
+    //use our db object to populate our restaurants vector with Restaurant objects
+    if(db.getRestaurants(this->restaurants)){
+        qInfo() << "Successfully got all the restaurants";
+    }
+
     //set up ui
+    //This is the list widget that holds each restaurant row
     QListWidget *restaurantList = ui->restaurantList;
 
-    std::vector<Restaurant> restaurants = this->app.getRestaurants();
-    for (int i = 0; i< restaurants.size(); i++)
+    //Create a RestaurantWidget object for each restaurant and add it to the restaurantList list widget.
+    for (int i = 0; i < this->restaurants.size(); i++)
     {
-        //std::cout << "ran once " << i << std::endl;
         RestaurantWidget *restaurantItem = new RestaurantWidget(restaurants[i], this);
         QListWidgetItem *item = new QListWidgetItem(restaurantList);
         restaurantList->addItem(item);
@@ -21,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 }
 
+//Purely for adding restaurant to UI list
 void MainWindow::addToList(QString name)
 {
     QListWidget* customList = ui->customList;
@@ -40,6 +48,7 @@ void MainWindow::addToList(QString name)
 
 }
 
+//Purely for adding menu item to UI list
 void MainWindow::addToMenuList(QString name, QString restaurantName)
 {
     QListWidget* customList = ui->menuList;
@@ -58,13 +67,16 @@ void MainWindow::addToMenuList(QString name, QString restaurantName)
     }
 }
 
+//Needed for calculating the trip information
 void MainWindow::addRestaurant(Restaurant restaurant){
 
     qInfo() << restaurant.getName() << "Test";
 
+
     if(std::find(nameList.begin(), nameList.end(), restaurant.getName()) == nameList.end() )
     {
-       app.addRestaurant(restaurant);
+        //Restaurant hasn't been added yet, good to add
+        selectedRestaurants.push_back(restaurant);
     } else {
         QMessageBox popup;
         popup.critical(0, "Error", "Cannot add the same restaurant twice.");
@@ -76,7 +88,7 @@ void MainWindow::addMenuItem(Restaurant restaurant, MenuItem item){
     if(std::find(nameList.begin(), nameList.end(), restaurant.getName()) != nameList.end())
     {
         //Restaurant this menu items belongs to has been added to trip already. Safe to add menu item.
-        app.addMenuItem(restaurant, item);
+        selectedItems.insert(std::pair<int, MenuItem>(restaurant.getID(), item));
     }
     else
     {
@@ -92,25 +104,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_planTrip_clicked()
 {
-
+    //Set this to true if we run into input validation
     bool errorExists = false;
 
-    qInfo() << "Planning trip!";
     if(this->nameList.size() > 0 && this->menuList.size() > 0){
-        qInfo() << "Passed 1";
         if (ui->startDominos->isChecked()){
             std::cout << "Start from dominos checked and were calling";
             if(std::find(nameList.begin(), nameList.end(), "Domino's Pizza") != nameList.end())
             {
-                app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
+                //set current trip pointer in this class to a new trip object which will encapsulate all the information of our trip. access with getters.
+                this->currentTrip = new Trip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked(), this->selectedRestaurants, this->selectedItems);
             } else {
                 QMessageBox popup;
                 errorExists = true;
                 popup.critical(0, "Error", "Cannot start a trip from Domino's without adding it first.");
             }
         } else {
-            qInfo() << "Calling here.";
-            app.startTrip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked());
+            this->currentTrip = new Trip(ui->startSaddleback->isChecked(), ui->startDominos->isChecked(), this->selectedRestaurants, this->selectedItems);
         }
     } else {
         QMessageBox popup;
@@ -119,19 +129,20 @@ void MainWindow::on_planTrip_clicked()
     }
 
     if (!errorExists){
+        //Input is properly validated, continue with displaying trip information to UI
 
-        qInfo() << "Total money spent: " << app.getCurrentTrip()->getTotalSpent();
-        ui->totalSpentLabel->setText("$" + QString::number(app.getCurrentTrip()->getTotalSpent()));
+        qInfo() << "Total money spent: " << this->currentTrip->getTotalSpent();
+        ui->totalSpentLabel->setText("$" + QString::number(this->currentTrip->getTotalSpent()));
 
 
-        ui->distanceLabel->setText(QString::number(app.getCurrentTrip()->getTotalDistance()) + " mi.");
+        ui->distanceLabel->setText(QString::number(this->currentTrip->getTotalDistance()) + " mi.");
 
-        std::queue<Restaurant> route = app.getCurrentTrip()->getRoute();
+        std::queue<Restaurant> route = this->currentTrip->getRoute();
 
         qInfo() << "Most efficient route: ";
 
         int count = 1;
-        if (app.getCurrentTrip()->isFromSaddleback()){
+        if (this->currentTrip->isFromSaddleback()){
             ui->routeList->addItem("1. Saddleback College");
             count++;
         }
@@ -145,9 +156,9 @@ void MainWindow::on_planTrip_clicked()
 
         qInfo() << "Money spent per restaurant: ";
 
-        std::map<int,double> moneySpent = app.getCurrentTrip()->getMoneySpent();
+        std::map<int,double> moneySpent = this->currentTrip->getMoneySpent();
         std::map<int,double>::iterator it;
-        std::vector<Restaurant> allRestaurants = app.getRestaurants();
+        std::vector<Restaurant> allRestaurants = this->restaurants;
         for (it = moneySpent.begin(); it != moneySpent.end(); it++){
             int id = it->first;
             for (int i = 0; i < allRestaurants.size(); i++){
@@ -166,7 +177,7 @@ void MainWindow::on_planTrip_clicked()
 
 void MainWindow::on_openListButton_clicked()
 {
-    popup = new listOfRestaurants(app.getRestaurants(), this);
+    popup = new listOfRestaurants(this->restaurants, this);
     popup->show();
 }
 
@@ -181,6 +192,16 @@ void MainWindow::on_clearButton_clicked()
     this->ui->routeList->clear();
     this->ui->spentList->clear();
 
-    this->app.clearTrip();
+    //Reset trip information
+    currentTrip = nullptr;
+    selectedRestaurants.clear();
+    selectedItems.clear();
+}
+
+
+void MainWindow::on_customTrip_clicked()
+{
+    QMessageBox popup;
+    popup.information(0, "Info", "The first restaurant you add to the trip will be the starting restaurant.");
 }
 
