@@ -6,7 +6,7 @@ Database::Database()
 
     db = QSqlDatabase::addDatabase("QSQLITE");
     QDir dir = QCoreApplication::applicationDirPath();
-    db.setDatabaseName("/Users/christopherschrader/FoodFantasy/db/FOODFANTASY.db");
+    db.setDatabaseName("D:/Qt/CS1D_Project1/db/FOODFANTASY.db");
 
     if (db.open()){
         qInfo() << "Database connection established!";

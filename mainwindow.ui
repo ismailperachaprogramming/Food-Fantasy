@@ -89,9 +89,9 @@
    <widget class="QLabel" name="totalLabel">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>270</x>
       <y>0</y>
-      <width>291</width>
+      <width>391</width>
       <height>41</height>
      </rect>
     </property>
@@ -107,9 +107,9 @@
    <widget class="QLabel" name="customLabel">
     <property name="geometry">
      <rect>
-      <x>880</x>
-      <y>0</y>
-      <width>271</width>
+      <x>810</x>
+      <y>10</y>
+      <width>321</width>
       <height>41</height>
      </rect>
     </property>
@@ -135,9 +135,9 @@
    <widget class="QLabel" name="customLabel_2">
     <property name="geometry">
      <rect>
-      <x>1140</x>
-      <y>0</y>
-      <width>201</width>
+      <x>1160</x>
+      <y>10</y>
+      <width>241</width>
       <height>41</height>
      </rect>
     </property>
@@ -254,7 +254,7 @@
       <x>10</x>
       <y>20</y>
       <width>151</width>
-      <height>32</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -274,6 +274,19 @@
      <string>Clear Trip</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>20</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Admin Login</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -281,7 +294,7 @@
      <x>0</x>
      <y>0</y>
      <width>1430</width>
-     <height>24</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     Database.cpp \
     listofrestaurants.cpp \
+    login.cpp \
     main.cpp \
     mainwindow.cpp \
     restaurant.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 HEADERS += \
     Database.h \
     listofrestaurants.h \
+    login.h \
     mainwindow.h \
     restaurant.h \
     restaurantwidget.h \
@@ -27,6 +29,7 @@ HEADERS += \
 
 FORMS += \
     listofrestaurants.ui \
+    login.ui \
     mainwindow.ui
 
 # Default rules for deployment.

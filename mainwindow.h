@@ -39,6 +39,8 @@ private slots:
 
     void on_customTrip_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::vector<QString> nameList;

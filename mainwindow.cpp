@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "login.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -203,5 +204,13 @@ void MainWindow::on_customTrip_clicked()
 {
     QMessageBox popup;
     popup.information(0, "Info", "The first restaurant you add to the trip will be the starting restaurant.");
+}
+
+
+void MainWindow::on_pushButton_clicked()    //admin login
+{
+    Login login;
+    login.setModal(true);
+    login.exec();
 }
 
