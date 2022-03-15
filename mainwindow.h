@@ -6,6 +6,7 @@
 #include "restaurantwidget.h"
 #include "restaurant.h"
 #include "Database.h"
+#include "login.h"
 #include "listofrestaurants.h"
 #include <iostream>
 
@@ -41,6 +42,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_startDominos_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::vector<QString> nameList;
@@ -59,6 +62,8 @@ private:
     std::multimap<int, MenuItem> selectedItems;
 
     listOfRestaurants* popup;
+
+    Login* loginpopup;
 
 };
 #endif // MAINWINDOW_H

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
-#include "login.h"
+
+#include <QGroupBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -54,13 +55,10 @@ void MainWindow::addToMenuList(QString name, QString restaurantName)
 {
     QListWidget* customList = ui->menuList;
 
-
     if(std::find(nameList.begin(), nameList.end(), restaurantName) != nameList.end())
     {
-
         customList->addItem(name);
         menuList.push_back(name);
-
     }
     else
     {
@@ -192,6 +190,9 @@ void MainWindow::on_clearButton_clicked()
     this->ui->menuList->clear();
     this->ui->routeList->clear();
     this->ui->spentList->clear();
+    this->ui->startDominos->setChecked(false);
+    this->ui->startSaddleback->setChecked(false);
+    this->ui->customTrip->setChecked(false);
 
     //Reset trip information
     currentTrip = nullptr;
@@ -209,8 +210,87 @@ void MainWindow::on_customTrip_clicked()
 
 void MainWindow::on_pushButton_clicked()    //admin login
 {
-    Login login;
-    login.setModal(true);
-    login.exec();
+    this->loginpopup = new Login();
+    loginpopup->show();
+}
+
+
+void MainWindow::on_startDominos_clicked()
+{
+    int numRestaurantsToVisit = this->ui->numRestaurants->value();
+    if (numRestaurantsToVisit > 0){
+        //all restaurants were visiting (including dominos)
+
+        //clear any currently selected restaurants
+        this->selectedRestaurants.clear();
+        this->selectedItems.clear();
+
+        std::vector<Restaurant> restaurantsFromDominos;
+        //previous restaurant to compare for in algorithm
+        Restaurant *previous;
+        //set previous equal to dominos restaurant
+        for (int i = 0; i < restaurants.size(); i++){
+            if (restaurants[i].getID() == 3){
+                //3 is domino's id
+                previous = &restaurants[i];
+                qInfo() << "found dominos successfully";
+            }
+        }
+
+        restaurantsFromDominos.push_back(*previous);
+
+        for (int i = 0; i < numRestaurantsToVisit; i++){
+            qInfo() << "Ran";
+            int distance = 10000000;
+            Restaurant* closest;
+
+
+            for (int i = 0; i < this->restaurants.size(); i++){
+                double distance2 = restaurants[i].getDistances().at(previous->getID() - 1);
+                //need some sort of alternate way for if previous is a new restaurant.. check size of .getDistances like in Trip
+                if (distance2 < distance){
+                    //found new restaurant, but first make sure it isnt in restaurantsFromDominos already!
+                    bool found = false;
+                    for (int j = 0; j < restaurantsFromDominos.size(); j++){
+                        if (restaurantsFromDominos[j].getID() == restaurants[i].getID()){
+                            qInfo() << "oops.. same restaurant";
+                            found = true;
+                        }
+                    }
+                    if (found == false){
+                        qInfo() << "new restaurant! " << restaurants[i].getName();
+                        closest = &restaurants[i];
+                        distance = distance2;
+                    }
+                }
+            }
+
+            restaurantsFromDominos.push_back(*closest);
+            previous = closest;
+
+        }
+
+        selectedRestaurants = restaurantsFromDominos;
+
+        //add restaurants to ui now
+        for (int i = 0; i < selectedRestaurants.size(); i++){
+            this->addToList(selectedRestaurants[i].getName());
+        }
+
+        QString restaurantsStr;
+        for (int i = 0; i < restaurantsFromDominos.size(); i++){
+            restaurantsStr += restaurantsFromDominos[i].getName() + " \n";
+        }
+
+        QMessageBox popup;
+        popup.information(0, "Info", "The restaurants you will be visiting are: \n \n" + restaurantsStr + "\n Please add items for each of these.");
+
+
+    } else {
+        QMessageBox popup;
+        popup.critical(0, "Error", "Enter number of restaurants to visit first.");
+    }
+
+            //add to selected restaurants from here after
 }
 
