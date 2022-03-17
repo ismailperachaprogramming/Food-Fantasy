@@ -23,7 +23,7 @@ RestaurantWidget::RestaurantWidget(Restaurant restaurantPassed, MainWindow *pare
     }
 
     //Run on_AddMenuItemClicked() method in this class when "Add Items" button has been clicked
-    menuItems->connect(addItemButton, SIGNAL(clicked()), this, SLOT(on_AddMenuItemClicked()));
+    addItemButton->connect(addItemButton, SIGNAL(clicked()), this, SLOT(on_AddMenuItemClicked()));
     //Run on_AddRestaurantClicked() method in this class when "Add Restaurant" button has been clicked
     addButton->connect(addButton, SIGNAL(clicked()), this, SLOT(on_AddRestaurantClicked()));
 
