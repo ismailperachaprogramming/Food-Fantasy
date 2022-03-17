@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "foodapp.h"
 #include "restaurantwidget.h"
+#include "menuwidget.h"
 #include "restaurant.h"
 #include "Database.h"
 #include "login.h"
@@ -43,6 +44,10 @@ private slots:
     void on_pushButton_clicked();
 
     void on_startDominos_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_menuAdmin_clicked();
 
 private:
     Ui::MainWindow *ui;

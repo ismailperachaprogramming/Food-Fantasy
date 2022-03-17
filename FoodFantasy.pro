@@ -14,6 +14,7 @@ SOURCES += \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
+    menuwidget.cpp \
     restaurant.cpp \
     restaurantwidget.cpp \
     trip.cpp
@@ -23,6 +24,7 @@ HEADERS += \
     listofrestaurants.h \
     login.h \
     mainwindow.h \
+    menuwidget.h \
     restaurant.h \
     restaurantwidget.h \
     trip.h

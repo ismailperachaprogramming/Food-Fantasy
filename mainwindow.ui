@@ -82,7 +82,7 @@
       <x>910</x>
       <y>50</y>
       <width>171</width>
-      <height>481</height>
+      <height>371</height>
      </rect>
     </property>
    </widget>
@@ -128,7 +128,7 @@
       <x>1100</x>
       <y>50</y>
       <width>311</width>
-      <height>481</height>
+      <height>371</height>
      </rect>
     </property>
    </widget>
@@ -136,7 +136,7 @@
     <property name="geometry">
      <rect>
       <x>1160</x>
-      <y>0</y>
+      <y>10</y>
       <width>241</width>
       <height>41</height>
      </rect>
@@ -906,10 +906,10 @@
    <widget class="Line" name="line_2">
     <property name="geometry">
      <rect>
-      <x>883</x>
-      <y>560</y>
+      <x>890</x>
+      <y>430</y>
       <width>20</width>
-      <height>191</height>
+      <height>321</height>
      </rect>
     </property>
     <property name="orientation">
@@ -919,14 +919,63 @@
    <widget class="Line" name="line_3">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>540</y>
-      <width>481</width>
-      <height>16</height>
+      <x>900</x>
+      <y>420</y>
+      <width>471</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="menuAdminList">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>460</y>
+      <width>511</width>
+      <height>311</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>430</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add New Restaurants</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="menuAdmin">
+    <property name="geometry">
+     <rect>
+      <x>1230</x>
+      <y>430</y>
+      <width>100</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edit Menus</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>440</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Admin Editing</string>
     </property>
    </widget>
   </widget>

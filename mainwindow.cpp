@@ -238,28 +238,29 @@ void MainWindow::on_startDominos_clicked()
         }
 
         restaurantsFromDominos.push_back(*previous);
+        double distanceTotal = 0;
 
-        for (int i = 0; i < numRestaurantsToVisit; i++){
+        for (int i = 0; i < numRestaurantsToVisit - 1; i++){
             qInfo() << "Ran";
-            int distance = 10000000;
+            double distance = 10000000;
             Restaurant* closest;
 
 
-            for (int i = 0; i < this->restaurants.size(); i++){
-                double distance2 = restaurants[i].getDistances().at(previous->getID() - 1);
+            for (int w = 0; w < this->restaurants.size(); w++){
+                double distance2 = restaurants[w].getDistances().at(previous->getID() - 1);
                 //need some sort of alternate way for if previous is a new restaurant.. check size of .getDistances like in Trip
                 if (distance2 < distance){
                     //found new restaurant, but first make sure it isnt in restaurantsFromDominos already!
                     bool found = false;
                     for (int j = 0; j < restaurantsFromDominos.size(); j++){
-                        if (restaurantsFromDominos[j].getID() == restaurants[i].getID()){
+                        if (restaurantsFromDominos[j].getID() == restaurants[w].getID()){
                             qInfo() << "oops.. same restaurant";
                             found = true;
                         }
                     }
                     if (found == false){
-                        qInfo() << "new restaurant! " << restaurants[i].getName();
-                        closest = &restaurants[i];
+                        qInfo() << "new restaurant! " << restaurants[w].getName() << "dis: " << distance2;
+                        closest = &restaurants[w];
                         distance = distance2;
                     }
                 }
@@ -267,6 +268,7 @@ void MainWindow::on_startDominos_clicked()
 
             restaurantsFromDominos.push_back(*closest);
             previous = closest;
+            distanceTotal += distance;
 
         }
 
@@ -282,8 +284,9 @@ void MainWindow::on_startDominos_clicked()
             restaurantsStr += restaurantsFromDominos[i].getName() + " \n";
         }
 
+
         QMessageBox popup;
-        popup.information(0, "Info", "The restaurants you will be visiting are: \n \n" + restaurantsStr + "\n Please add items for each of these.");
+        popup.information(0, "Info", "The restaurants you will be visiting are: \n \n" + restaurantsStr + "\nPlease add items for each of these. \n" + "Total distnace: " + QString::number(distanceTotal) + " mi.");
 
 
     } else {
@@ -292,5 +295,51 @@ void MainWindow::on_startDominos_clicked()
     }
 
             //add to selected restaurants from here after
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    if (this->loginpopup != nullptr){
+        if (this->loginpopup->getAdminStatus() == true){
+            qInfo() << "Logged in as admin, good to go.";
+        } else {
+            QMessageBox popup;
+            popup.critical(0, "Error", "This is an admin only feature.");
+        }
+    } else {
+        QMessageBox popup;
+        popup.critical(0, "Error", "This is an admin only feature. \nLog in first!");
+    }
+}
+
+
+void MainWindow::on_menuAdmin_clicked()
+{
+    if (this->loginpopup != nullptr){
+        if (this->loginpopup->getAdminStatus() == true){
+            qInfo() << "Logged in as admin, good to go.";
+
+            //loop through restaurants and create a MenuWidget for each one
+            QListWidget *menuList = ui->menuAdminList;
+            menuList->clear();
+
+            for (int i = 0; i < restaurants.size(); i++){
+                MenuWidget *menuItem = new MenuWidget(this->restaurants[i], this);
+                QListWidgetItem *item = new QListWidgetItem(menuList);
+                menuList->addItem(item);
+                item->setSizeHint(menuItem->minimumSizeHint());
+                menuList->setItemWidget(item, menuItem);
+            }
+
+
+        } else {
+            QMessageBox popup;
+            popup.critical(0, "Error", "This is an admin only feature.");
+        }
+    } else {
+        QMessageBox popup;
+        popup.critical(0, "Error", "This is an admin only feature. \nLog in first!");
+    }
 }
 

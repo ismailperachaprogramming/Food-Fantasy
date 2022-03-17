@@ -44,6 +44,7 @@ public:
      * \return - Returns boolean of whether operation was successful
      */
 
+    //serialize all menu stuff here and replace restaurants menu column with the new menu json array of objects
     bool modifyMenu(Restaurant restaurant, std::vector<MenuItem> menu);
 
     //! Method to receive all restaurants in database
