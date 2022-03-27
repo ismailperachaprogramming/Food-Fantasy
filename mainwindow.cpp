@@ -28,6 +28,13 @@ MainWindow::MainWindow(QWidget *parent)
         item->setSizeHint(restaurantItem->minimumSizeHint());
         restaurantList->setItemWidget(item, restaurantItem);
     }
+
+    std::vector<Restaurant> newRestaurants;
+
+    Restaurant newRestaurant(13, "McDonald's 2 Boogaloo", this->restaurants[4].getMenu(), this->restaurants[4].getDistances(), 20.5);
+    newRestaurants.push_back(newRestaurant);
+
+    db.addRestaurants(newRestaurants);
 }
 
 //Purely for adding restaurant to UI list

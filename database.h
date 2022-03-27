@@ -34,7 +34,7 @@ public:
      * \param restaurant - Restaurant object to add to our database
      * \return Returns boolean of whether operation was successful
      */
-    bool addRestaurant(Restaurant restaurant);
+    bool addRestaurants(std::vector<Restaurant> restaurants);
 
     //! Method to modify a restaurant's menu in database
     /*!
