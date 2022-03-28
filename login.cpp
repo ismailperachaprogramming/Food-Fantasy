@@ -9,6 +9,7 @@ Login::Login(QWidget *parent) :
     ui->setupUi(this);
     username = "Admin";
     password = "Pass";
+    admin = false;
 }
 
 Login::~Login()

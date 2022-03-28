@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <vector>
 
+#include "mainwindow.h"
+
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QComboBox>
@@ -18,7 +20,7 @@ class MenuWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MenuWidget(Restaurant restaurant, QWidget *parent = nullptr);
+    explicit MenuWidget(Restaurant restaurant, MainWindow *parent = nullptr);
 
 private:
     QHBoxLayout *layout;
@@ -27,6 +29,7 @@ private:
     QPushButton *addNewItemButton;
     QPushButton *deleteItemButton;
     QPushButton *editItemButton;
+    MainWindow *parent;
 
     Restaurant restaurant;
 
