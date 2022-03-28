@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->loginpopup = nullptr;
 
     //Initialize our current trip pointer to nullptr
     this->currentTrip = nullptr;
@@ -34,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     Restaurant newRestaurant(13, "McDonald's 2 Boogaloo", this->restaurants[4].getMenu(), this->restaurants[4].getDistances(), 20.5);
     newRestaurants.push_back(newRestaurant);
 
-    db.addRestaurants(newRestaurants);
+    //db.addRestaurants(newRestaurants);
 }
 
 //Purely for adding restaurant to UI list
@@ -310,6 +311,10 @@ void MainWindow::on_pushButton_2_clicked()
     if (this->loginpopup != nullptr){
         if (this->loginpopup->getAdminStatus() == true){
             qInfo() << "Logged in as admin, good to go.";
+
+            std::vector<Restaurant> newRestaurants = this->db.readFile();
+            qInfo() << newRestaurants[0].getName();
+
         } else {
             QMessageBox popup;
             popup.critical(0, "Error", "This is an admin only feature.");
@@ -323,6 +328,7 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_menuAdmin_clicked()
 {
+    qInfo() << this->loginpopup;
     if (this->loginpopup != nullptr){
         if (this->loginpopup->getAdminStatus() == true){
             qInfo() << "Logged in as admin, good to go.";

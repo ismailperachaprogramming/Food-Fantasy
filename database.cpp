@@ -1,5 +1,10 @@
 #include "database.h"
 
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
 Database::Database()
 {
     //Connect to "foodfantasy.db"
@@ -13,6 +18,92 @@ Database::Database()
     } else {
         qInfo() << "Database connection error occured.";
     }
+}
+
+std::vector<Restaurant> Database::readFile()
+{
+    QString filePath = "/Users/christopherschrader/FoodFantasy/CS1D_Spring_2022_New_Fast_Food_Project.txt";
+    string infile = "/Users/christopherschrader/FoodFantasy/CS1D_Spring_2022_New_Fast_Food_Project.txt";
+
+    vector<Restaurant> newRestaurants;
+
+    QFile q_file(filePath);
+    if(!q_file.exists())
+    {
+        qCritical() << filePath << " cannot be found.";
+        exit(1);
+    }
+
+    string restaurantName;
+    int restaurantID;
+    MenuItem item;
+    vector<MenuItem> menuItems;
+    vector<double> distances;
+    double saddlebackDistance;
+    int distanceToOtherRestaurants;
+    double specificDistance = 0;
+    int restaurantCount = 0;
+    int numMenuItems = 0;
+
+    ifstream file(infile);
+
+    if(!file.is_open())
+    {
+        qCritical() << "File failed to open!";
+    }
+
+    while(file)
+    {
+        file.ignore(numeric_limits<streamsize>::max(), ':');
+        file >> restaurantName;
+
+        QString QRestaurantName = QString::fromStdString(restaurantName);
+        file.ignore(numeric_limits<streamsize>::max(), ':');
+        file >> restaurantID;
+        file.ignore(numeric_limits<streamsize>::max(), '-');
+        file >> distanceToOtherRestaurants;
+
+        for (int i = 1; i <= 12; i++)
+        {
+            file.ignore(numeric_limits<streamsize>::max(), i);
+            file >> specificDistance;
+            distances.push_back(specificDistance);
+        }
+
+        file.ignore(numeric_limits<streamsize>::max(), ':');
+        file >> saddlebackDistance;
+        file.ignore(numeric_limits<streamsize>::max(), ':');
+        file >> numMenuItems;
+
+        for(int j = 0; j < numMenuItems; j++)
+        {
+            string itemName;
+            double itemPrice;
+
+            file >> itemName;
+            file >> itemPrice;
+
+            QString QItemName = QString::fromStdString(itemName);
+            item.name = QItemName;
+            item.price = itemPrice;
+
+            menuItems.push_back(item);
+        }
+
+        //restaurantCount++;
+        //possible bug - adds multiple of the same restaurants?
+
+        //for (int i = 0; i < restaurantCount; i++)
+        //{
+            Restaurant newRestaurant(restaurantID, QRestaurantName, menuItems, distances, saddlebackDistance);
+            newRestaurants.push_back(newRestaurant);
+        //}
+
+        //restaurantCount--;
+    }
+
+    file.close();
+    return newRestaurants;
 }
 
 bool Database::addRestaurants(std::vector<Restaurant> restaurants){

@@ -1,7 +1,7 @@
 #include "menuwidget.h"
 
-MenuWidget::MenuWidget(Restaurant restaurant, QWidget *parent)
-    : restaurant{restaurant}, QWidget{parent}
+MenuWidget::MenuWidget(Restaurant restaurant, MainWindow *parent)
+    : restaurant{restaurant}, parent{parent}
 {
 
     //Creating all the UI elements dynamically for each restaurant column in the list widget.
