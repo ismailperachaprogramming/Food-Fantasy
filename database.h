@@ -25,45 +25,45 @@ class Database
 {
 public:
 
+    //! Constructor
+    //! \brief Establishes connection to .db file
     Database();
 
-    //Read file
-    //! Method to generate vector of restaurants from input file (given in project zip)
+    //! readFile
     /*!
-     * \brief readFile
+     * \brief Method to generate vector of restaurants from input file (given in project zip)
      * \return Returns vector which is populated with new restaurants from input file
      */
     std::vector<Restaurant> readFile();
 
-    //Add restaurant
-    //! Method to add a new restaurant to the database
+    //! addRestaurants
     /*!
-     * \brief addRestaurant
-     * \param restaurant - Restaurant object to add to our database
+     * \brief Method to add a new restaurant to the database
+     * \param restaurants - Vector of restaurants to add to database
      * \return Returns boolean of whether operation was successful
      */
     void addRestaurants(std::vector<Restaurant> restaurants);
 
-    //! Method to modify a restaurant's menu in database
+    //! modifyMenu
     /*!
-     * \brief modifyMenu
+     * \brief Method to modify a restaurant's menu in database
      * \param restaurant - Restaurant object that we're trying to modify.
      * \param menu - Vector of MenuItems, which represents our updated menu state.
      * \return - Returns boolean of whether operation was successful
      */
 
-    //serialize all menu stuff here and replace restaurants menu column with the new menu json array of objects
     void modifyMenu(Restaurant restaurant, std::vector<MenuItem> menu);
 
-    //! Method to receive all restaurants in database
+    //! getRestaurants
     /*!
-     * \brief getRestaurants
-     * \return Returns a vector of Restaurant objects.
+     * \brief Method to receive all restaurants in database
+     * \param restaurants - Vector of restaurants by reference to modify
+     * \return Returns true or false of successful/not successful operation
      */
     bool getRestaurants(std::vector<Restaurant>& restaurants);
 
 private:
-    QSqlDatabase db;
+    QSqlDatabase db; /*!< QTSqlite database object */
 
 };
 

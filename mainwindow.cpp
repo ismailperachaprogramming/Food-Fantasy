@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
         restaurantList->setItemWidget(item, restaurantItem);
     }
 
+    ui->priceText->setValidator(new QDoubleValidator(0, 100, 2, this));
+
 }
 
 //Purely for adding restaurant to UI list
@@ -444,7 +446,7 @@ void MainWindow::editItem(Restaurant restaurant, int index){
     std::vector<MenuItem> newMenu = restaurant.getMenu();
     MenuItem editing = restaurant.getMenu()[index];
     newMenu.erase(newMenu.begin() + index);
-    double newPrice = std::stod(ui->priceText->toPlainText().toStdString());
+    double newPrice = std::stod(ui->priceText->text().toStdString());
     editing.price = newPrice;
 
     newMenu.push_back(editing);
@@ -484,7 +486,7 @@ void MainWindow::editItem(Restaurant restaurant, int index){
 
 void MainWindow::addItem(Restaurant restaurant, std::vector<MenuItem> newMenu){
     QString name = ui->itemnameText->toPlainText();
-    double price = std::stod(ui->priceText->toPlainText().toStdString());
+    double price = std::stod(ui->priceText->text().toStdString());
 
     MenuItem newItem;
     newItem.name = name;
