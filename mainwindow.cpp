@@ -30,12 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
         restaurantList->setItemWidget(item, restaurantItem);
     }
 
-    std::vector<Restaurant> newRestaurants;
-
-    Restaurant newRestaurant(13, "McDonald's 2 Boogaloo", this->restaurants[4].getMenu(), this->restaurants[4].getDistances(), 20.5);
-    newRestaurants.push_back(newRestaurant);
-
-    //db.addRestaurants(newRestaurants);
 }
 
 //Purely for adding restaurant to UI list
@@ -255,7 +249,14 @@ void MainWindow::on_startDominos_clicked()
 
 
             for (int w = 0; w < this->restaurants.size(); w++){
-                double distance2 = restaurants[w].getDistances().at(previous->getID() - 1);
+                double distance2 = 0;
+                if (previous->getID() > 10){
+                    qInfo() << "New one";
+                    qInfo() << w;
+                    distance2 = previous->getDistances().at(w);
+                } else {
+                    distance2 = restaurants[w].getDistances().at(previous->getID() - 1);
+                }
                 //need some sort of alternate way for if previous is a new restaurant.. check size of .getDistances like in Trip
                 if (distance2 < distance){
                     //found new restaurant, but first make sure it isnt in restaurantsFromDominos already!
@@ -310,18 +311,42 @@ void MainWindow::on_pushButton_2_clicked()
 {
     if (this->loginpopup != nullptr){
         if (this->loginpopup->getAdminStatus() == true){
+            if (this->restaurants.size() > 10){
+                QMessageBox popup;
+                popup.critical(0, "Error", "Restaurant file has already been read!");
+            }
+
             qInfo() << "Logged in as admin, good to go.";
 
             std::vector<double> distances;
             std::vector<MenuItem> menu;
 
             std::vector<Restaurant> newRestaurants = this->db.readFile();
-            qInfo() << newRestaurants[0].getName();
-            qInfo() << newRestaurants[0].getID();
 
-            distances = newRestaurants[0].getDistances();
-            qInfo() << newRestaurants[0].getSaddlebackDistance();
-            menu = newRestaurants[0].getMenu();
+            this->db.addRestaurants(newRestaurants);
+
+            this->db.getRestaurants(this->restaurants);
+
+            QListWidget *restaurantList = ui->restaurantList;
+            restaurantList->clear();
+
+            //Create a RestaurantWidget object for each restaurant and add it to the restaurantList list widget.
+            for (int i = 0; i < this->restaurants.size(); i++)
+            {
+                RestaurantWidget *restaurantItem = new RestaurantWidget(restaurants[i], this);
+                QListWidgetItem *item = new QListWidgetItem(restaurantList);
+                restaurantList->addItem(item);
+                item->setSizeHint(restaurantItem->minimumSizeHint());
+                restaurantList->setItemWidget(item, restaurantItem);
+            }
+
+
+            qInfo() << newRestaurants[1].getName();
+            qInfo() << newRestaurants[1].getID();
+
+            distances = newRestaurants[1].getDistances();
+            qInfo() << newRestaurants[1].getSaddlebackDistance();
+            menu = newRestaurants[1].getMenu();
 
             for (auto i = distances.begin(); i != distances.end(); i++)
             {
@@ -335,6 +360,8 @@ void MainWindow::on_pushButton_2_clicked()
 
 
             //qInfo() << newRestaurants[1].getName();
+
+
 
 
         } else {
@@ -375,6 +402,127 @@ void MainWindow::on_menuAdmin_clicked()
     } else {
         QMessageBox popup;
         popup.critical(0, "Error", "This is an admin only feature. \nLog in first!");
+    }
+}
+
+void MainWindow::deleteItem(Restaurant restaurant, std::vector<MenuItem> newMenu){
+    //menu is already updated for this function call
+    this->db.modifyMenu(restaurant, newMenu);
+
+    //update restaurants
+    this->db.getRestaurants(this->restaurants);
+
+    //update ui
+
+    QListWidget *restaurantList = ui->restaurantList;
+    restaurantList->clear();
+
+    //Create a RestaurantWidget object for each restaurant and add it to the restaurantList list widget.
+    for (int i = 0; i < this->restaurants.size(); i++)
+    {
+        RestaurantWidget *restaurantItem = new RestaurantWidget(restaurants[i], this);
+        QListWidgetItem *item = new QListWidgetItem(restaurantList);
+        restaurantList->addItem(item);
+        item->setSizeHint(restaurantItem->minimumSizeHint());
+        restaurantList->setItemWidget(item, restaurantItem);
+    }
+
+    //loop through restaurants and create a MenuWidget for each one
+    QListWidget *menuList = ui->menuAdminList;
+    menuList->clear();
+
+    for (int i = 0; i < restaurants.size(); i++){
+        MenuWidget *menuItem = new MenuWidget(this->restaurants[i], this);
+        QListWidgetItem *item = new QListWidgetItem(menuList);
+        menuList->addItem(item);
+        item->setSizeHint(menuItem->minimumSizeHint());
+        menuList->setItemWidget(item, menuItem);
+    }
+}
+
+void MainWindow::editItem(Restaurant restaurant, int index){
+    std::vector<MenuItem> newMenu = restaurant.getMenu();
+    MenuItem editing = restaurant.getMenu()[index];
+    newMenu.erase(newMenu.begin() + index);
+    double newPrice = std::stod(ui->priceText->toPlainText().toStdString());
+    editing.price = newPrice;
+
+    newMenu.push_back(editing);
+
+    this->db.modifyMenu(restaurant, newMenu);
+
+    //update restaurants
+    this->db.getRestaurants(this->restaurants);
+
+    //update ui
+
+    QListWidget *restaurantList = ui->restaurantList;
+    restaurantList->clear();
+
+    //Create a RestaurantWidget object for each restaurant and add it to the restaurantList list widget.
+    for (int i = 0; i < this->restaurants.size(); i++)
+    {
+        RestaurantWidget *restaurantItem = new RestaurantWidget(restaurants[i], this);
+        QListWidgetItem *item = new QListWidgetItem(restaurantList);
+        restaurantList->addItem(item);
+        item->setSizeHint(restaurantItem->minimumSizeHint());
+        restaurantList->setItemWidget(item, restaurantItem);
+    }
+
+    //loop through restaurants and create a MenuWidget for each one
+    QListWidget *menuList = ui->menuAdminList;
+    menuList->clear();
+
+    for (int i = 0; i < restaurants.size(); i++){
+        MenuWidget *menuItem = new MenuWidget(this->restaurants[i], this);
+        QListWidgetItem *item = new QListWidgetItem(menuList);
+        menuList->addItem(item);
+        item->setSizeHint(menuItem->minimumSizeHint());
+        menuList->setItemWidget(item, menuItem);
+    }
+}
+
+void MainWindow::addItem(Restaurant restaurant, std::vector<MenuItem> newMenu){
+    QString name = ui->itemnameText->toPlainText();
+    double price = std::stod(ui->priceText->toPlainText().toStdString());
+
+    MenuItem newItem;
+    newItem.name = name;
+    newItem.price = price;
+
+    std::vector<MenuItem> menu = restaurant.getMenu();
+    menu.push_back(newItem);
+
+    this->db.modifyMenu(restaurant, menu);
+
+    //update restaurants
+    this->db.getRestaurants(this->restaurants);
+
+    //update ui
+
+    QListWidget *restaurantList = ui->restaurantList;
+    restaurantList->clear();
+
+    //Create a RestaurantWidget object for each restaurant and add it to the restaurantList list widget.
+    for (int i = 0; i < this->restaurants.size(); i++)
+    {
+        RestaurantWidget *restaurantItem = new RestaurantWidget(restaurants[i], this);
+        QListWidgetItem *item = new QListWidgetItem(restaurantList);
+        restaurantList->addItem(item);
+        item->setSizeHint(restaurantItem->minimumSizeHint());
+        restaurantList->setItemWidget(item, restaurantItem);
+    }
+
+    //loop through restaurants and create a MenuWidget for each one
+    QListWidget *menuList = ui->menuAdminList;
+    menuList->clear();
+
+    for (int i = 0; i < restaurants.size(); i++){
+        MenuWidget *menuItem = new MenuWidget(this->restaurants[i], this);
+        QListWidgetItem *item = new QListWidgetItem(menuList);
+        menuList->addItem(item);
+        item->setSizeHint(menuItem->minimumSizeHint());
+        menuList->setItemWidget(item, menuItem);
     }
 }
 

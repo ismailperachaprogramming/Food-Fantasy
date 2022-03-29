@@ -983,7 +983,7 @@
      <string>Admin Editing</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QTextEdit" name="priceText">
     <property name="geometry">
      <rect>
       <x>1110</x>
@@ -993,7 +993,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2">
+   <widget class="QTextEdit" name="itemnameText">
     <property name="geometry">
      <rect>
       <x>1310</x>

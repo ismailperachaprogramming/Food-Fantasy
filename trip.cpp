@@ -36,6 +36,7 @@ Trip::Trip(bool startingFromSaddleback, bool startingFromDominos, std::vector<Re
 }
 
 void Trip::startTrip(Restaurant* startingRestaurant){
+    qInfo() << "Starting trip";
     if (startingFromSaddleback){
         double shortestDistance = 10000;
         int id = 0;
@@ -114,17 +115,24 @@ void Trip::createShortestRoute(int initialID){
         int index = 0;
         int id = 0;
         Restaurant* closest = nullptr;
-        Restaurant initial = this->route.front();
+        Restaurant initial = this->route.back();
+        qInfo() << "General case, initialID: " << initialID << "compared: " << initial.getID();
         for (int i = 0; i < selectedRestaurants.size(); i++){
-            if (initial.getDistances().size() > 10){
+            if (initialID > 10){
+                qInfo() << "New restaurant.";
                 //initial is a new restaurant, so we must look at initial distance from other restaurants since they might not have the data
+                qInfo() << i << " : " << selectedRestaurants.size();
+                qInfo() << "test: " << selectedRestaurants[i].getID() - 1;
+                //if (selectedRestaurants[i])
                 if (initial.getDistances().at(selectedRestaurants[i].getID() - 1) < shortestDistance){
                     index = i;
                     id = selectedRestaurants[i].getID();
                     closest = &selectedRestaurants[i];
                     shortestDistance = initial.getDistances().at(selectedRestaurants[i].getID() - 1);
+
                 }
             } else {
+                qInfo() << "Old one" ;
                 //initial.getID() - 1 bc id starts at 1 but distances starts at index 0
                 if (selectedRestaurants[i].getDistances().at(initialID - 1) < shortestDistance){
                     index = i;
@@ -136,6 +144,8 @@ void Trip::createShortestRoute(int initialID){
         }
         this->totalDistance += shortestDistance;
         this->route.push(*closest);
+
+        qInfo() << "right here";
         selectedRestaurants.erase(selectedRestaurants.begin() + index);
         //recursive function call
         createShortestRoute(id);

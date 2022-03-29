@@ -200,16 +200,42 @@ void Database::addRestaurants(std::vector<Restaurant> restaurants){
 
 void Database::modifyMenu(Restaurant restaurant, std::vector<MenuItem> menu){
     //modify menu given restaurant
-    //function will serialize menu with json and save as TEXT/STRING in 'menu' columns where restaurant is passed in restaurant
-    //find proper restaurant by looking at restaurant id then query sql database based on that
+        //function will serialize menu with json and save as TEXT/STRING in 'menu' columns where restaurant is passed in restaurant
+        //find proper restaurant by looking at restaurant id then query sql database based on that
 
-    //returns true if operation is completed
+        //returns true if operation is completed
 
-    //loop through menu
-    for (int i = 0; i <= menu.size(); i++){
-        MenuItem currItem = menu[i];
+        QJsonArray menuItems;
 
-    }
+        for (int i = 0; i < menu.size(); i++)
+        {
+            auto item = QJsonObject(
+            {
+            qMakePair(QString("name"), QJsonValue(menu[i].name)),
+            qMakePair(QString("price"), QJsonValue(menu[i].price))
+            });
+
+            menuItems.push_back(QJsonValue(item));
+
+        }
+
+        int id = restaurant.getID();
+        QString idToString = QString::number(id);
+
+        QSqlQuery query;
+
+        QJsonDocument menuDoc(menuItems);
+
+        query.prepare("UPDATE restaurants SET menu = :newmenu WHERE id = :idediting");
+        query.bindValue(":newmenu", menuDoc.toJson());
+        query.bindValue(":idediting", id);
+
+        if (query.exec()){
+            qInfo() << "Inserted";
+        } else {
+            qInfo() << "Error, " << query.lastError();
+        }
+
 }
 
 bool Database::getRestaurants(std::vector<Restaurant>& restaurants){

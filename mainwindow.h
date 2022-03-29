@@ -26,6 +26,12 @@ public:
     void addMenuItem(Restaurant restaurant, MenuItem item);
     void addToList(QString name);
     void addToMenuList(QString name, QString restaurantName);
+
+    void deleteItem(Restaurant restaurant, std::vector<MenuItem> newMenu);
+    void editItem(Restaurant restaurant, int index);
+    void addItem(Restaurant restaurant, std::vector<MenuItem> newMenu);
+
+
     std::vector<QString> getMenuList() const { return menuList; }
 
 
@@ -48,6 +54,7 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_menuAdmin_clicked();
+
 
 private:
     Ui::MainWindow *ui;

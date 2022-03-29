@@ -44,8 +44,8 @@ Distance (miles) to other Fast Food restaurants-12
 10 11.8
 11 5.8
 12 0.0
-Miles to Saddleback College: 6.6
-5 menu items
+Miles to Saddleback College:6.6
+Menu Items:5
 Sonic hamburger
 4.99
 Sonic cheeseburger
