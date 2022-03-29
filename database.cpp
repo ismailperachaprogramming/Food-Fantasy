@@ -1,17 +1,12 @@
 #include "database.h"
 
-#include <iostream>
-#include <fstream>
-
-using namespace std;
-
 Database::Database()
 {
     //Connect to "foodfantasy.db"
 
     db = QSqlDatabase::addDatabase("QSQLITE");
     QDir dir = QCoreApplication::applicationDirPath();
-    db.setDatabaseName("C:/Users/amohindra1/Desktop/CS1D_Project1-new-branch-chris/db/FOODFANTASY.db");
+    db.setDatabaseName("C:/Users/Michael/Desktop/CS1D_Project1-new-branch/db/FOODFANTASY.db");
 
     if (db.open()){
         qInfo() << "Database connection established!";
@@ -20,104 +15,7 @@ Database::Database()
     }
 }
 
-std::vector<Restaurant> Database::readFile()
-{
-    QString filePath = "C:/Users/amohindra1/Desktop/CS1D_Project1-new-branch-chris/CS1D_Spring_2022_New_Fast_Food_Project.txt";
-    string infile = "C:/Users/amohindra1/Desktop/CS1D_Project1-new-branch-chris/CS1D_Spring_2022_New_Fast_Food_Project.txt";
-
-    vector<Restaurant> newRestaurants;
-
-    QFile q_file(filePath);
-    if(!q_file.exists())
-    {
-        qCritical() << filePath << " cannot be found.";
-        exit(1);
-    }
-
-    string restaurantName;
-    int restaurantID;
-    MenuItem item;
-    vector<MenuItem> menuItems;
-    vector<double> distances;
-    double saddlebackDistance = 0;
-    int distanceToOtherRestaurants;
-    double specificDistance = 0;
-    int restaurantCount = 0;
-    int numMenuItems = 0;
-
-    ifstream file(infile);
-
-    if(!file.is_open())
-    {
-        qCritical() << "File failed to open!";
-    }
-
-    while(file)
-    {
-        file.ignore(numeric_limits<streamsize>::max(), ':');
-        getline(file, restaurantName);
-
-        QString QRestaurantName = QString::fromStdString(restaurantName);
-        file.ignore(numeric_limits<streamsize>::max(), ':');
-        file >> restaurantID;
-        file.ignore(10000, '\n');
-
-        string empty = "";
-        getline(file, empty);
-        QString DistanceStuff = QString::fromStdString(empty);
-        qInfo() << "This will be read and skipped: " << DistanceStuff;
-
-        for (int i = 1; i <= 12; i++)
-        {
-            qInfo() << file.peek();
-
-            string empty2 = "";
-            file >> empty2;
-            //file.ignore(numeric_limits<streamsize>::max(), i);
-            qInfo() << file.peek();
-            //file.ignore(numeric_limits<streamsize>::max(), ' ');
-            file >> specificDistance;
-            distances.push_back(specificDistance);
-            //qInfo() << "dist: " << i << " : " << specificDistance;
-        }
-
-        file.ignore(numeric_limits<streamsize>::max(), ':');
-        file >> saddlebackDistance;
-        file.ignore(numeric_limits<streamsize>::max(), ':');
-        file >> numMenuItems;
-
-        for(int j = 0; j < numMenuItems; j++)
-        {
-            string itemName;
-            double itemPrice;
-
-            file >> itemName;
-            file >> itemPrice;
-
-            QString QItemName = QString::fromStdString(itemName);
-            item.name = QItemName;
-            item.price = itemPrice;
-
-            menuItems.push_back(item);
-        }
-
-        //restaurantCount++;
-        //possible bug - adds multiple of the same restaurants?
-
-        //for (int i = 0; i < restaurantCount; i++)
-        //{
-            Restaurant newRestaurant(restaurantID, QRestaurantName, menuItems, distances, saddlebackDistance);
-            newRestaurants.push_back(newRestaurant);
-        //}
-
-        //restaurantCount--;
-    }
-
-    file.close();
-    return newRestaurants;
-}
-
-void Database::addRestaurants(std::vector<Restaurant> restaurants){
+bool Database::addRestaurants(std::vector<Restaurant> restaurants){
 
     for (int i = 0; i < restaurants.size(); i++){
         Restaurant currRestaurant = restaurants[i];
@@ -169,6 +67,7 @@ void Database::addRestaurants(std::vector<Restaurant> restaurants){
             qInfo() << "Error, " << query.lastError();
         }
     }
+    return 1;
 }
 
 void Database::modifyMenu(Restaurant restaurant, std::vector<MenuItem> menu){
@@ -181,7 +80,6 @@ void Database::modifyMenu(Restaurant restaurant, std::vector<MenuItem> menu){
     //loop through menu
     for (int i = 0; i <= menu.size(); i++){
         MenuItem currItem = menu[i];
-
     }
 }
 

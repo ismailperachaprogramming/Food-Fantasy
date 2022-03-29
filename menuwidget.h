@@ -7,15 +7,14 @@
 #include <QDebug>
 #include <vector>
 
-#include "mainwindow.h"
-
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QComboBox>
 #include <QPushButton>
 
+#include "mainwindow.h"
 #include "restaurant.h"
-
+#include "Database.h"
 class MenuWidget : public QWidget
 {
     Q_OBJECT
@@ -29,10 +28,9 @@ private:
     QPushButton *addNewItemButton;
     QPushButton *deleteItemButton;
     QPushButton *editItemButton;
-    MainWindow *parent;
 
     Restaurant restaurant;
-
+    MainWindow* parent;
 private slots:
     void on_AddMenuItemClicked();
 

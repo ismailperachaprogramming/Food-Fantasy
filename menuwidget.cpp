@@ -1,4 +1,5 @@
-#include "menuwidget.h"
+﻿#include "menuwidget.h"
+
 
 MenuWidget::MenuWidget(Restaurant restaurant, MainWindow *parent)
     : restaurant{restaurant}, parent{parent}
@@ -48,12 +49,26 @@ MenuWidget::MenuWidget(Restaurant restaurant, MainWindow *parent)
 
 void MenuWidget::on_AddMenuItemClicked(){
     qInfo() << "Add item clicked.";
+
+
 }
 
 void MenuWidget::on_DeleteMenuItemClicked(){
     qInfo() << "Delete item clicked.";
+
+    //Index of menu ComboBox - necessary to know since we need to know which item they want.
+    int index = this->menuItems->currentIndex();
+
+    menuItems->removeItem(index);
+    std::vector<MenuItem>updatedMenu = this->restaurant.getMenu();
+
+    updatedMenu.erase(updatedMenu.begin() + index);
+
+    this->parent->db.modifyMenu(restaurant, updatedMenu);
 }
 
 void MenuWidget::on_EditMenuItemClicked(){
     qInfo() << "Edit item clicked.";
+
+int index = this->menuItems->currentIndex();
 }

@@ -21,7 +21,6 @@ public:
     std::vector<MenuItem> getMenu() const { return menu; }
     std::vector<double> getDistances() const { return distances; }
     double getSaddlebackDistance() const { return saddlebackDistance; }
-
 private:
     int restaurantID;
     QString name;

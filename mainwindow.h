@@ -28,7 +28,7 @@ public:
     void addToMenuList(QString name, QString restaurantName);
     std::vector<QString> getMenuList() const { return menuList; }
 
-
+    Database db;
     ~MainWindow();
 
 private slots:
@@ -55,7 +55,7 @@ private:
     std::vector<QString> menuList;
 
     //Database object - use this to interact with SQLite database
-    Database db;
+
     //Stores the currentTrip. nullptr upon program opening.
     Trip* currentTrip;
     //all restaurants in db are in this vector
