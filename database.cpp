@@ -11,7 +11,7 @@ Database::Database()
 
     db = QSqlDatabase::addDatabase("QSQLITE");
     QDir dir = QCoreApplication::applicationDirPath();
-    db.setDatabaseName("C:/Users/amohindra1/Desktop/CS1D_Project1-new-branch-chris/db/FOODFANTASY.db");
+    db.setDatabaseName("/Users/christopherschrader/FoodFantasy/db/FOODFANTASY.db");
 
     if (db.open()){
         qInfo() << "Database connection established!";
@@ -22,8 +22,8 @@ Database::Database()
 
 std::vector<Restaurant> Database::readFile()
 {
-    QString filePath = "C:/Users/amohindra1/Desktop/CS1D_Project1-new-branch-chris/CS1D_Spring_2022_New_Fast_Food_Project.txt";
-    string infile = "C:/Users/amohindra1/Desktop/CS1D_Project1-new-branch-chris/CS1D_Spring_2022_New_Fast_Food_Project.txt";
+    QString filePath = "/Users/christopherschrader/FoodFantasy/CS1D_Spring_2022_New_Fast_Food_Project.txt";
+    string infile = "/Users/christopherschrader/FoodFantasy/CS1D_Spring_2022_New_Fast_Food_Project.txt";
 
     vector<Restaurant> newRestaurants;
 
@@ -65,16 +65,16 @@ std::vector<Restaurant> Database::readFile()
         string empty = "";
         getline(file, empty);
         QString DistanceStuff = QString::fromStdString(empty);
-        qInfo() << "This will be read and skipped: " << DistanceStuff;
+        //qInfo() << "This will be read and skipped: " << DistanceStuff;
 
         for (int i = 1; i <= 12; i++)
         {
-            qInfo() << file.peek();
+            //qInfo() << file.peek();
 
             string empty2 = "";
             file >> empty2;
             //file.ignore(numeric_limits<streamsize>::max(), i);
-            qInfo() << file.peek();
+            //qInfo() << file.peek();
             //file.ignore(numeric_limits<streamsize>::max(), ' ');
             file >> specificDistance;
             distances.push_back(specificDistance);
@@ -85,18 +85,30 @@ std::vector<Restaurant> Database::readFile()
         file >> saddlebackDistance;
         file.ignore(numeric_limits<streamsize>::max(), ':');
         file >> numMenuItems;
+        file.ignore();
+        file.ignore();
+
+        //qInfo() << "num menu items: " << numMenuItems;
+
+        string itemName = "";
+        string itemPrice = "";
 
         for(int j = 0; j < numMenuItems; j++)
         {
-            string itemName;
-            double itemPrice;
 
-            file >> itemName;
-            file >> itemPrice;
+            getline(file, itemName);
+            //file.ignore();
+            getline(file, itemPrice);
+            //item.price = std::stod(itemPrice);
+
+            //cout << "Testing p: " << itemPrice << endl;
 
             QString QItemName = QString::fromStdString(itemName);
+            QString QItemPrice = QString::fromStdString(itemPrice);
+            //qInfo() << "test: " << QItemName;
+            //qInfo() << "price test: " << QItemPrice;
             item.name = QItemName;
-            item.price = itemPrice;
+            item.price = std::stod(itemPrice);
 
             menuItems.push_back(item);
         }
@@ -111,6 +123,21 @@ std::vector<Restaurant> Database::readFile()
         //}
 
         //restaurantCount--;
+
+            file.ignore(10000, '\n');
+            file.ignore(10000, '\n');
+
+            //qInfo() << "FINISHED ONE LOOP";
+
+            //qInfo() << "PEEK: " << file.peek();
+
+            menuItems.clear();
+            distances.clear();
+            saddlebackDistance = 0;
+            distanceToOtherRestaurants;
+            specificDistance = 0;
+            restaurantCount = 0;
+            numMenuItems = 0;
     }
 
     file.close();
