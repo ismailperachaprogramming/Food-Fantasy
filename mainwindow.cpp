@@ -501,7 +501,6 @@ void MainWindow::addItem(Restaurant restaurant, std::vector<MenuItem> newMenu){
     this->db.getRestaurants(this->restaurants);
 
     //update ui
-
     QListWidget *restaurantList = ui->restaurantList;
     restaurantList->clear();
 

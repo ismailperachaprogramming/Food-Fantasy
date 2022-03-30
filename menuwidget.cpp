@@ -58,9 +58,14 @@ void MenuWidget::on_DeleteMenuItemClicked(){
 
     std::vector<MenuItem>updatedMenu = this->restaurant.getMenu();
 
-    updatedMenu.erase(updatedMenu.begin() + index);
+    if (updatedMenu.size() > 0){
+        updatedMenu.erase(updatedMenu.begin() + index);
 
-    this->parent->deleteItem(this->restaurant, updatedMenu);
+        this->parent->deleteItem(this->restaurant, updatedMenu);
+    } else {
+        QMessageBox popup;
+        popup.critical(0, "Error", "Menu is already empty.");
+    }
 }
 
 void MenuWidget::on_EditMenuItemClicked(){

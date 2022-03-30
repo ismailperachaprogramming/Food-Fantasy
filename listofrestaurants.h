@@ -8,6 +8,11 @@ namespace Ui {
 class listOfRestaurants;
 }
 
+/*!
+ * \brief List of restaurants class
+ * Serves as a UI for the popup restaurant list, with initial distance to Saddleback
+ */
+
 class listOfRestaurants : public QDialog
 {
     Q_OBJECT
@@ -17,7 +22,7 @@ public:
     ~listOfRestaurants();
 
 private:
-    Ui::listOfRestaurants *ui;
+    Ui::listOfRestaurants *ui; /*!< UI of popup window */
 };
 
 #endif // LISTOFRESTAURANTS_H

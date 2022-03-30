@@ -16,24 +16,31 @@
 
 #include "restaurant.h"
 
+/*!
+ * \brief Widget class used for editing restaurant menus. Inherits from QWidget.
+ */
+
 class MenuWidget : public QWidget
 {
     Q_OBJECT
 public:
+    //! Constructor
+    //! \brief Initializes all ui elements with restaurant passed into the constructor.
     explicit MenuWidget(Restaurant restaurant, MainWindow *parent = nullptr);
 
 private:
-    QHBoxLayout *layout;
-    QLabel *nameLabel;
-    QComboBox *menuItems;
-    QPushButton *addNewItemButton;
-    QPushButton *deleteItemButton;
-    QPushButton *editItemButton;
-    MainWindow *parent;
+    QHBoxLayout *layout; /*!< Layout to hold all ui elements */
+    QLabel *nameLabel; /*!< Restaurant name */
+    QComboBox *menuItems; /*!< Combobox of menu items */
+    QPushButton *addNewItemButton; /*!< Button to add a new item */
+    QPushButton *deleteItemButton; /*!< Button to delete an item */
+    QPushButton *editItemButton; /*!< Button to edit an item */
+    MainWindow *parent; /*!< Main application reference */
 
-    Restaurant restaurant;
+    Restaurant restaurant; /*!< Restaurant associated with the widget */
 
 private slots:
+
     void on_AddMenuItemClicked();
 
     void on_DeleteMenuItemClicked();
