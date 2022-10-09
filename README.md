@@ -1,6 +1,6 @@
-# CS1D_Project1
+# Food Fantasy
 
-Your team is to write a program that reads data and stores it in a data
+The team is to write a program that reads data and stores it in a data
 structure of your choice. The data structure must have the ability to
 hold information for at least 20 fast-food restaurants (the initial data
 contains fewer than that) where each fast-food restaurant may have a
