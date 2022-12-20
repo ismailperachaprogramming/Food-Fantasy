@@ -1,7 +1,7 @@
 # Food Fantasy
 Provides the efficient routes between fast-food restaurants as the user can choose where to go and receive the best efficient trip.
 
-#Installation
+# Installation
 Qt Creator must be installed before running this application.
 
 Execute the main.cpp to run the application on Qt Creator.
