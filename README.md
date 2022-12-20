@@ -1,5 +1,12 @@
 # Food Fantasy
+Provides the efficient routes between fast-food restaurants as the user can choose where to go and receive the best efficient trip.
 
+#Installation
+Qt Creator must be installed before running this application.
+
+Execute the main.cpp to run the application on Qt Creator.
+
+# Requirements
 The team is to write a program that reads data and stores it in a data
 structure of your choice. The data structure must have the ability to
 hold information for at least 20 fast-food restaurants (the initial data
