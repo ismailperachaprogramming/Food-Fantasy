@@ -1,5 +1,5 @@
 # Food Fantasy
-Provides the efficient routes between fast-food restaurants as the user can choose where to go and receive the best efficient trip.
+Provides the most efficient routes between fast-food restaurants as the user can choose where to go and receive the best efficient trip.
 
 # Installation
 Qt Creator must be installed before running this application.
